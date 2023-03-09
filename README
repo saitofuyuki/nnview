@@ -1,0 +1,65 @@
+========
+ Nnview
+========
+
+Nnview is an extension of Ncview by David W. Pierce, which includes
+file access ability to TOUZA/Nio formats.
+
+Everything related to copying, etc, follows the original policy of
+Ncview except where explicitly indicated.
+
+All the modification and one new file src/file_nio.c are
+Copyright (c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
+
+Nnview is maintained by SAITO Fuyuki.
+
+You need TOUZA library (1.09.0 or later) to build Nnview.
+TOUZA is available on https://github.com/saitofuyuki/touza.
+
+Several files in the original package are renamed or archived under
+misc/ directory.  See README.ncview ChangeLog.ncview for the original
+information.
+
+---------------------
+How to install nnview
+---------------------
+
+See file "INSTALL" for the original description.  This file describes
+only Nnview related staffs.
+
+You MUST install TOUZA library version 1.09.0 or later before trying
+to install nnview.  Note that, TOUZA library also supports NetCDF and
+optionally requires NetCDF installation beforehand.  If you use TOUZA
+library for other purposes than Nnview, you should install NetCDF
+before TOUZA.  For nnview builds only, TOUZA installation may not
+require NetCDF.
+
+TOUZA library is searched using pkg-config utility.  When search
+fails, please set appropriate values for some or all of the following
+variables at configure nnview.
+
+  PKG_CONFIG           path to pkg-config utility
+  PKG_CONFIG_PATH      directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR    path overriding pkg-config's built-in search path
+
+In the worst case it still fails, please set the compiler and linker
+flags directly:
+
+  TOUZA_CFLAGS    C compiler flags for TOUZA, overriding pkg-config
+  TOUZA_LIBS      linker flags for TOUZA, overriding pkg-config
+  TOUZA_FCLIBS    value of fclibs for touza, overriding pkg-config
+
+-------
+Copying
+-------
+
+Also see files "README.ncview" and "COPYING".
+
+Nnview is a derivative work of Ncview by David W. Pierce.
+All the extension and modification to the original package are
+done by SAITO Fuyuki and Copyright is
+(c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 3 as
+published by the Free Software Foundation.
