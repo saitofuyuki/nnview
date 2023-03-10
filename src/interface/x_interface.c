@@ -40,6 +40,10 @@
 #include <setjmp.h>
 #endif
 
+#ifndef    NCVIEW_CLASS
+#  define  NCVIEW_CLASS "Ncview"
+#endif
+
 #define DEFAULT_BUTTON_WIDTH	55
 #define DEFAULT_LABEL_WIDTH	400
 #define DEFAULT_DIMLABEL_WIDTH	95
@@ -463,13 +467,13 @@ void x_parse_args( int *p_argc, char **argv )
 
 	topLevel =  XtVaAppInitialize(
 		&x_app_context,	 	/* Application context           */
-		"Ncview",	 	/* Application class             */
+		NCVIEW_CLASS,	 	/* Application class             */
 		NULL, 0,	 	/* command line option list      */
 		p_argc, argv,	 	/* command line args             */
 		fallback_resources,	/* for missing app-defaults file */
 		NULL );		 	/* terminate varargs list        */
 	
-	snprintf( program_title, 130, "Ncview %s\n", PROGRAM_VERSION_STRING );
+	snprintf( program_title, 130, NCVIEW_CLASS " %s\n", PROGRAM_VERSION_STRING );
 	XtVaSetValues( topLevel, XtNtitle, program_title, NULL );
 
 	debug = 0;

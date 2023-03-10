@@ -1,5 +1,17 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* captalized package name */
+#undef CAPITAL_PACKAGE_NAME
+
+/* fallback background color */
+#undef COLOR_BACKGROUND
+
+/* fallback foreground color */
+#undef COLOR_FOREGROUND
+
+/* fallback plotxy background color */
+#undef COLOR_PLOT_BACKGROUND
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -53,6 +65,12 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Class name */
+#undef NCVIEW_CLASS
+
+/* nnview version sub id */
+#undef NNVIEW_VERSION_NUMBER
 
 /* Name of package */
 #undef PACKAGE

@@ -19,5 +19,17 @@ CLEANFILES += $(BUILT_SOURCES)
 man1_MANS = $(PACKAGE).1
 BUILT_SOURCES += $(man1_MANS)
 
+if TRANSFORM_PACKAGE
+APPDEFAULTS = $(CAPITAL_PACKAGE_NAME)-appdefaults
+BUILT_SOURCES += $(APPDEFAULTS)
+
+$(APPDEFAULTS): Ncview-appdefaults
+	sed -e '/\(^Ncview[*]foreground:\).*$$/s//\1 $(COLOR_FOREGROUND)/' \
+		-e '/\(^Ncview[*]background:\).*$$/s//\1 $(COLOR_BACKGROUND)/' \
+		-e '/PlotXY_canvas[*]background: /s/[^ ]* *$$/$(COLOR_PLOT_BACKGROUND)/' \
+		-e 's/^Ncview\([*]\)/$(CAPITAL_PACKAGE_NAME)\1/' \
+		$< > $@
+endif
+
 $(PACKAGE).1: data/ncview.1.sed
 	sed 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' $< > $@

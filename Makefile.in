@@ -86,6 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+@TRANSFORM_PACKAGE_TRUE@am__append_1 = $(APPDEFAULTS)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4macros/netcdf.m4 \
@@ -241,9 +242,13 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+CAPITAL_PACKAGE_NAME = @CAPITAL_PACKAGE_NAME@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+COLOR_BACKGROUND = @COLOR_BACKGROUND@
+COLOR_FOREGROUND = @COLOR_FOREGROUND@
+COLOR_PLOT_BACKGROUND = @COLOR_PLOT_BACKGROUND@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
@@ -370,8 +375,9 @@ EXTRA_DIST = RELEASE_NOTES regenerate install-appdef \
 	save/hotres.Rmap save/x_interface.c README.ncview \
 	ChangeLog.ncview
 CLEANFILES = $(BUILT_SOURCES)
-BUILT_SOURCES = $(man1_MANS)
+BUILT_SOURCES = $(man1_MANS) $(am__append_1)
 man1_MANS = $(PACKAGE).1
+@TRANSFORM_PACKAGE_TRUE@APPDEFAULTS = $(CAPITAL_PACKAGE_NAME)-appdefaults
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -925,6 +931,13 @@ uninstall-man: uninstall-man1
 
 .PRECIOUS: Makefile
 
+
+@TRANSFORM_PACKAGE_TRUE@$(APPDEFAULTS): Ncview-appdefaults
+@TRANSFORM_PACKAGE_TRUE@	sed -e '/\(^Ncview[*]foreground:\).*$$/s//\1 $(COLOR_FOREGROUND)/' \
+@TRANSFORM_PACKAGE_TRUE@		-e '/\(^Ncview[*]background:\).*$$/s//\1 $(COLOR_BACKGROUND)/' \
+@TRANSFORM_PACKAGE_TRUE@		-e '/PlotXY_canvas[*]background: /s/[^ ]* *$$/$(COLOR_PLOT_BACKGROUND)/' \
+@TRANSFORM_PACKAGE_TRUE@		-e 's/^Ncview\([*]\)/$(CAPITAL_PACKAGE_NAME)\1/' \
+@TRANSFORM_PACKAGE_TRUE@		$< > $@
 
 $(PACKAGE).1: data/ncview.1.sed
 	sed 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' $< > $@

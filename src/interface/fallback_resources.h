@@ -21,38 +21,51 @@
  * pierce@cirrus.ucsd.edu
  */
 
+#ifndef    NCVIEW_CLASS
+#  define  NCVIEW_CLASS "Ncview"
+#endif
+#ifndef    COLOR_FOREGROUND
+#  define  COLOR_FOREGROUND "azure"
+#endif
+#ifndef    COLOR_BACKGROUND
+#  define  COLOR_BACKGROUND "SteelBlue"
+#endif
+#ifndef    COLOR_PLOT_BACKGROUND
+#  define  COLOR_PLOT_BACKGROUND "LightSteelBlue"
+#endif
+
 static String fallback_resources[] = {
-	"Ncview*foreground:      azure",
-	"Ncview*background:      SteelBlue",
-	"Ncview*PlotXY_canvas*background: LightSteelBlue",
-	"Ncview*labelWidth:	555",
-	"Ncview*blowupDefaultSize:  300",
-	"Ncview*dimLabelWidth:	95",
-	"Ncview*varLabelWidth:	114",
-	"Ncview*nVarsPerRow:	4",
-	"Ncview*quit*label:	Quit",
-	"Ncview*font:			-*-helvetica-*-r-*-*-14-*-*-*-*-*-*-*",
-	"Ncview*ccontour*borderWidth: 	0",
-	"Ncview*label2.justify:	Left",
-	"Ncview*label3.justify:	Left",
-	"Ncview*label4.justify:	Left",
-	"Ncview*label5.justify:	Left",
-	"Ncview*label2*borderWidth:	0",
-	"Ncview*label3*borderWidth:	0",
-	"Ncview*label4*borderWidth:	0",
-	"Ncview*label5*borderWidth:	0",
-	"Ncview*varlist_label*borderWidth:	0",
-	"Ncview*label_row.borderWidth:		0",
-	"Ncview*label_name.borderWidth:		0",
-	"Ncview*label_dimension.borderWidth:	0",
-	"Ncview*label_min.borderWidth:		0",
-	"Ncview*label_cur.borderWidth:		0",
-	"Ncview*label_max.borderWidth:		0",
-	"Ncview*label_units.borderWidth:	0",
-	"Ncview*ydimselectbox.borderWidth:	0",
-	"Ncview*ydimlist_label.borderWidth:	0",
-	"Ncview*xdimselectbox.borderWidth:	0",
-	"Ncview*xdimlist_label.borderWidth:	0",
+	NCVIEW_CLASS "*foreground:      " COLOR_FOREGROUND,
+	NCVIEW_CLASS "*background:      " COLOR_BACKGROUND,
+	NCVIEW_CLASS "*PlotXY_canvas*background: " COLOR_PLOT_BACKGROUND,
+	NCVIEW_CLASS "*labelWidth:	555",
+	NCVIEW_CLASS "*blowupDefaultSize:  300",
+	NCVIEW_CLASS "*dimLabelWidth:	95",
+	NCVIEW_CLASS "*varLabelWidth:	114",
+	NCVIEW_CLASS "*nVarsPerRow:	4",
+	NCVIEW_CLASS "*quit*label:	Quit",
+	NCVIEW_CLASS "*font:			-*-helvetica-*-r-*-*-14-*-*-*-*-*-*-*",
+	NCVIEW_CLASS "*ccontour*borderWidth: 	0",
+	NCVIEW_CLASS "*label2.justify:	Left",
+	NCVIEW_CLASS "*label3.justify:	Left",
+	NCVIEW_CLASS "*label4.justify:	Left",
+	NCVIEW_CLASS "*label5.justify:	Left",
+	NCVIEW_CLASS "*label2*borderWidth:	0",
+	NCVIEW_CLASS "*label3*borderWidth:	0",
+	NCVIEW_CLASS "*label4*borderWidth:	0",
+	NCVIEW_CLASS "*label5*borderWidth:	0",
+	NCVIEW_CLASS "*varlist_label*borderWidth:	0",
+	NCVIEW_CLASS "*label_row.borderWidth:		0",
+	NCVIEW_CLASS "*label_name.borderWidth:		0",
+	NCVIEW_CLASS "*label_dimension.borderWidth:	0",
+	NCVIEW_CLASS "*label_min.borderWidth:		0",
+	NCVIEW_CLASS "*label_cur.borderWidth:		0",
+	NCVIEW_CLASS "*label_max.borderWidth:		0",
+	NCVIEW_CLASS "*label_units.borderWidth:	0",
+	NCVIEW_CLASS "*ydimselectbox.borderWidth:	0",
+	NCVIEW_CLASS "*ydimlist_label.borderWidth:	0",
+	NCVIEW_CLASS "*xdimselectbox.borderWidth:	0",
+	NCVIEW_CLASS "*xdimlist_label.borderWidth:	0",
 	NULL };
 
 /*
