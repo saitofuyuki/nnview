@@ -257,7 +257,7 @@ AC_DEFINE_UNQUOTED([COLOR_PLOT_BACKGROUND], ["$COLOR_PLOT_BACKGROUND"], [fallbac
 
 AC_DEFINE([NNVIEW_VERSION_NUMBER], ["nnview_major_version.nnview_minor_version"], [nnview version sub id])
 
-PKG_PROG_PKG_CONFIG()
+PKG_PROG_PKG_CONFIG([1.8.1])
 PKG_PREREQ([0.29])
 PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.09.0])
 PKG_CHECK_VAR([TOUZA_FCLIBS], [touza], [fclibs])
