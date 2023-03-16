@@ -32,4 +32,8 @@ $(APPDEFAULTS): Ncview-appdefaults
 endif
 
 $(PACKAGE).1: data/ncview.1.sed
-	sed 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' $< > $@
+	sed -e 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' \
+		-e 's!ncview!$(PACKAGE)!g' \
+		-e 's!Ncview!$(CAPITAL_PACKAGE_NAME)!g' \
+		-e 's!NCVIEW!$(UPPER_PACKAGE_NAME)!g' \
+		$< > $@

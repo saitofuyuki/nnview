@@ -232,11 +232,14 @@ AS_IF([test "x$use_org_name" = x],
       [program_transform_name="s,ncview,$use_org_name,"
 ac_capital_package=`echo "${use_org_name: :1}" | tr 'a-z' 'A-Z'`
 ac_capital_package="${ac_capital_package}${use_org_name: 1}"
+ac_upper_package=`echo "${use_org_name}" | tr 'a-z' 'A-Z'`
 ])
 CAPITAL_PACKAGE_NAME="$ac_capital_package"
+UPPER_PACKAGE_NAME="$ac_upper_package"
 AC_DEFINE_UNQUOTED([NCVIEW_CLASS], ["$ac_capital_package"], [Class name])
 AC_DEFINE_UNQUOTED([CAPITAL_PACKAGE_NAME], ["$CAPITAL_PACKAGE_NAME"], [captalized package name])
 AC_SUBST([CAPITAL_PACKAGE_NAME])
+AC_SUBST([UPPER_PACKAGE_NAME])
 AM_CONDITIONAL([TRANSFORM_PACKAGE], [test "x$use_org_name" != x])
 
 AC_ARG_ENABLE([original-resources],

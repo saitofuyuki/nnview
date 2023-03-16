@@ -1,13 +1,14 @@
 .TH NCVIEW 1 local
 .SH NAME
-ncview \- graphically display netCDF files under X windows
+ncview \- graphically display netCDF or TOUZA/Nio files under X windows
 .SH SYNOPSIS
 .B ncview
 [\-beep] [\-copying] [\-frames] [\-warranty] [\-private] [\-ncolors XX] [\-extrainfo] [\-mtitle "title"] [\-minmax fast | med | slow | all] datafiles ...
 .PP
 .SH DESCRIPTION
 .I Ncview
-displays 2-D slices of a netCDF data file, using the X Window System
+displays 2-D slices of a netCDF or TOUZA/Nio (fork of gtool-3.5) data file,
+using the X Window System
 graphical user interface (Release 4 or higher).
 You can examine different floating point variables in the file, and animate
 the floating point data along the ``record dimension'' (usually time) 
