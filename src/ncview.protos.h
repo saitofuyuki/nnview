@@ -436,6 +436,12 @@ void 	printer_options_init();
 int 	printer_options( PrintOptions *po );
 
 /******************************************************************************
+ * in file transform.c
+ */
+float  normalize_f (float data, const int transform);
+double normalize_d (double data, const int transform);
+
+/******************************************************************************
  * in interface/cbar.c
  */
 void cbar_init();

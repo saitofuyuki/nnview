@@ -143,13 +143,7 @@ void cbar_make( int width, int height, int n_extra_colors, float user_min, float
 	for( j=0; j<height-vert_cut; j++ )
 	for( i=pad_side; i<width-pad_side; i++ ) {
 		normval = (double)(i-pad_side)/(double)(width-2*pad_side);
-		if( transform == TRANSFORM_HI )
-			normval = normval*normval*normval*normval;
-		else if( transform == TRANSFORM_LOW ) {
-			normval = sqrt(normval);
-			normval = sqrt(normval);
-			}
-
+        normval = normalize_d (normval, transform);
 		if( options.invert_colors )
 			normval = 1. - normval;
 

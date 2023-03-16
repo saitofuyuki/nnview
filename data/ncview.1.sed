@@ -52,11 +52,14 @@ are switched; the magnification button, which
 sets how much image expansion the image undergoes; and
 the transformation button, which determines what preprocessing
 the data undergoes before display.
-For this button, "Linear" means no preprocessing, "Low" means
-that the data is raised to the fourth power before conversion
-to a pixel, so that low values are emphasized; and "Hi" means that
-the fourth root of the data is taken before conversion, so
+For this button, "Linear" means no preprocessing, "Low1" and "Low2" mean
+that the data is raised to the second and fourth power, respectively, before conversion
+to a pixel, so that low values are emphasized; and "Hi1" and "Hi2" mean that
+the square and fourth root, respectively of the data is taken before conversion, so
 that large values are emphasized.
+In addition, "SymLow1", "SymLow2", "SymHi1" and "SymHi2" variations are
+included, where emphasis is on either normalized center or normalized edges.
+.PP
 Next comes "Set Dim"; pressing this pops up a window which
 allows you to determine which variables are shown on the X
 and Y axes.

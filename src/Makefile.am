@@ -31,6 +31,7 @@ headers = ncview.bitmaps.h ncview.includes.h             \
 sources = ncview.c file.c util.c do_buttons.c             \
           file_nio.c \
           file_netcdf.c   view.c do_print.c               \
+		  transform.c \
           epic_time.c interface/interface.c               \
           interface/x_interface.c interface/dataedit.c    \
           interface/display_info.c interface/plot_xy.c    \

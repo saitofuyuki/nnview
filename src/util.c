@@ -339,19 +339,7 @@ data_to_pixels( View *v )
 				{
 				data = (rawdata - v->variable->user_min) / data_range;
 				clip_f( &data, 0.0, .9999 );
-				switch( options.transform ) {
-					case TRANSFORM_NONE:	break;
-
-					/* This might cause problems.  It is at odds with what
-					 * the manual claims--at least for Ultrix--but works, 
-					 * whereas what the manual claims works, doesn't!
-					 */
-					case TRANSFORM_LOW:	data = sqrt( data );  
-								data = sqrt( data );
-								break;
-
-					case TRANSFORM_HI:	data = data*data*data*data;     break;
-					}		
+                data = normalize_f(data, options.transform);
 				if( options.invert_colors )
 					data = 1. - data;
 				pix_val = (ncv_pixel)(data * options.n_colors) + 10;

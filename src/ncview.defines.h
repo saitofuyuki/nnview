@@ -120,10 +120,16 @@
 
 /*****************************************************************************/
 /* Transforming the data before turning it into pixels is supported */
-#define N_TRANSFORMS		3
+#define N_TRANSFORMS		9
 #define TRANSFORM_NONE		1
-#define TRANSFORM_LOW		2
-#define TRANSFORM_HI		3
+#define TRANSFORM_LOW1		2
+#define TRANSFORM_LOW2		3
+#define TRANSFORM_HI1		4
+#define TRANSFORM_HI2		5
+#define TRANSFORM_ABSLOW1	6
+#define TRANSFORM_ABSLOW2	7
+#define TRANSFORM_ABSHI1	8
+#define TRANSFORM_ABSHI2	9
 
 /*****************************************************************************
  * Maximum number of X-Y plot windows which can pop up, and the max
