@@ -5,10 +5,10 @@ m4_define([ncview_major_version],[2])
 m4_define([ncview_minor_version],[1])
 m4_define([ncview_micro_version],[8])
 m4_define([ncview_version],[ncview_major_version.ncview_minor_version.ncview_micro_version])
-m4_define([nnview_release_date],[9 Mar 2023])
+m4_define([nnview_release_date],[16 Mar 2023])
 
 m4_define([nnview_major_version],[0])
-m4_define([nnview_minor_version],[2])
+m4_define([nnview_minor_version],[3])
 m4_define([nnview_version],[ncview_version+nnview_major_version.nnview_minor_version])
 
 AC_INIT([nnview],[nnview_version],[saitofuyuki@jamstec.go.jp])
@@ -259,6 +259,7 @@ AC_DEFINE_UNQUOTED([COLOR_FOREGROUND], ["$COLOR_FOREGROUND"], [fallback foregrou
 AC_DEFINE_UNQUOTED([COLOR_PLOT_BACKGROUND], ["$COLOR_PLOT_BACKGROUND"], [fallback plotxy background color])])
 
 AC_DEFINE([NNVIEW_VERSION_NUMBER], ["nnview_major_version.nnview_minor_version"], [nnview version sub id])
+AC_DEFINE([NNVIEW_VERSION_DATE], ["nnview_release_date"], [nnview release])
 
 PKG_PROG_PKG_CONFIG([1.8.1])
 PKG_PREREQ([0.29])
