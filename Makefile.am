@@ -9,6 +9,7 @@ EXTRA_DIST += install-appdef Ncview-appdefaults
 EXTRA_DIST += data/ncview.1.sed data/SciPlot.1
 EXTRA_DIST += save/README.sgi save/README.solaris
 EXTRA_DIST += save/README_LOCAL save/hotres.Rmap save/x_interface.c
+EXTRA_DIST += save/src
 EXTRA_DIST += README.ncview ChangeLog.ncview
 
 CLEANFILES =
