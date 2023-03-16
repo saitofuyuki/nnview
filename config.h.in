@@ -69,6 +69,9 @@
 /* Class name */
 #undef NCVIEW_CLASS
 
+/* nnview release */
+#undef NNVIEW_VERSION_DATE
+
 /* nnview version sub id */
 #undef NNVIEW_VERSION_NUMBER
 

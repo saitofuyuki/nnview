@@ -314,6 +314,7 @@ TOUZA_LIBS = @TOUZA_LIBS@
 UDUNITS2_CPPFLAGS = @UDUNITS2_CPPFLAGS@
 UDUNITS2_LDFLAGS = @UDUNITS2_LDFLAGS@
 UDUNITS2_LIBS = @UDUNITS2_LIBS@
+UPPER_PACKAGE_NAME = @UPPER_PACKAGE_NAME@
 VERSION = @VERSION@
 X11_LIBS = @X11_LIBS@
 XAW_LIBS = @XAW_LIBS@
@@ -940,7 +941,11 @@ uninstall-man: uninstall-man1
 @TRANSFORM_PACKAGE_TRUE@		$< > $@
 
 $(PACKAGE).1: data/ncview.1.sed
-	sed 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' $< > $@
+	sed -e 's!NCVIEW_LIB_DIR!$(pkgdatadir)!g' \
+		-e 's!ncview!$(PACKAGE)!g' \
+		-e 's!Ncview!$(CAPITAL_PACKAGE_NAME)!g' \
+		-e 's!NCVIEW!$(UPPER_PACKAGE_NAME)!g' \
+		$< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
