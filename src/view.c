@@ -3126,14 +3126,14 @@ view_change_transform( int delta )
 
 	switch( options.transform ) {
 		case TRANSFORM_NONE: in_set_label( LABEL_TRANSFORM, "Linear" ); break;
-		case TRANSFORM_LOW1: in_set_label( LABEL_TRANSFORM, "Low1"   ); break;
-		case TRANSFORM_LOW2: in_set_label( LABEL_TRANSFORM, "Low2"   ); break;
-		case TRANSFORM_HI1 : in_set_label( LABEL_TRANSFORM, "Hi1"    ); break;
-		case TRANSFORM_HI2 : in_set_label( LABEL_TRANSFORM, "Hi2"    ); break;
-		case TRANSFORM_ABSLOW1: in_set_label (LABEL_TRANSFORM, "SymLow1"); break;
-		case TRANSFORM_ABSLOW2: in_set_label (LABEL_TRANSFORM, "SymLow2"); break;
-		case TRANSFORM_ABSHI1:  in_set_label (LABEL_TRANSFORM, "SymHi1"); break;
-		case TRANSFORM_ABSHI2:  in_set_label (LABEL_TRANSFORM, "SymHi2"); break;
+		case TRANSFORM_LOW2: in_set_label( LABEL_TRANSFORM, "1/2 Low"   ); break;
+		case TRANSFORM_LOW4: in_set_label( LABEL_TRANSFORM, "1/4 Low"   ); break;
+		case TRANSFORM_HI2 : in_set_label( LABEL_TRANSFORM, "2 Hi"    ); break;
+		case TRANSFORM_HI4 : in_set_label( LABEL_TRANSFORM, "4 Hi"    ); break;
+		case TRANSFORM_SYMLOW2: in_set_label (LABEL_TRANSFORM, "1/2 SymLow"); break;
+		case TRANSFORM_SYMLOW4: in_set_label (LABEL_TRANSFORM, "1/4 SymLow"); break;
+		case TRANSFORM_SYMHI2:  in_set_label (LABEL_TRANSFORM, "2 SymHi"); break;
+		case TRANSFORM_SYMHI4:  in_set_label (LABEL_TRANSFORM, "4 SymHi"); break;
 		default:
 			fprintf( stderr, "ncview: change_transform: unknown transform %d\n",
 				options.transform );

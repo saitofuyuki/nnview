@@ -52,26 +52,26 @@ normalize_f (float data, const int transform)
       break;
     case TRANSFORM_LOW2:
       data = sqrtf (data);
-      data = sqrtf (data);
       break;
-    case TRANSFORM_LOW1:
+    case TRANSFORM_LOW4:
       data = sqrtf (data);
-      break;
-    case TRANSFORM_HI1:
-      data = data * data;
+      data = sqrtf (data);
       break;
     case TRANSFORM_HI2:
       data = data * data;
+      break;
+    case TRANSFORM_HI4:
+      data = data * data;
       data = data * data;
       break;
-    case TRANSFORM_ABSLOW1:
+    case TRANSFORM_SYMLOW2:
       w = (data - half) / half;
       s = copysignf(half, w);
       w = fabsf(w);
       w = sqrtf(w);
       data = half + s * w;
       break;
-    case TRANSFORM_ABSLOW2:
+    case TRANSFORM_SYMLOW4:
       w = (data - half) / half;
       s = copysignf(half, w);
       w = fabsf(w);
@@ -79,13 +79,13 @@ normalize_f (float data, const int transform)
       w = sqrtf(w);
       data = half + s * w;
       break;
-    case TRANSFORM_ABSHI1:
+    case TRANSFORM_SYMHI2:
       w = (data - half) / half;
       s = copysign(half, w);
       w = w * w;
       data = half + s * w;
       break;
-    case TRANSFORM_ABSHI2:
+    case TRANSFORM_SYMHI4:
       w = (data - half) / half;
       s = copysign(half, w);
       w = w * w;
@@ -112,26 +112,26 @@ normalize_d (double data, const int transform)
       break;
     case TRANSFORM_LOW2:
       data = sqrt (data);
-      data = sqrt (data);
       break;
-    case TRANSFORM_LOW1:
+    case TRANSFORM_LOW4:
       data = sqrt (data);
-      break;
-    case TRANSFORM_HI1:
-      data = data * data;
+      data = sqrt (data);
       break;
     case TRANSFORM_HI2:
       data = data * data;
+      break;
+    case TRANSFORM_HI4:
+      data = data * data;
       data = data * data;
       break;
-    case TRANSFORM_ABSLOW1:
+    case TRANSFORM_SYMLOW2:
       w = (data - half) / half;
       s = copysignf(half, w);
       w = fabs(w);
       w = sqrt(w);
       data = half + s * w;
       break;
-    case TRANSFORM_ABSLOW2:
+    case TRANSFORM_SYMLOW4:
       w = (data - half) / half;
       s = copysignf(half, w);
       w = fabs(w);
@@ -139,13 +139,13 @@ normalize_d (double data, const int transform)
       w = sqrt(w);
       data = half + s * w;
       break;
-    case TRANSFORM_ABSHI1:
+    case TRANSFORM_SYMHI2:
       w = (data - half) / half;
       s = copysign(half, w);
       w = w * w;
       data = half + s * w;
       break;
-    case TRANSFORM_ABSHI2:
+    case TRANSFORM_SYMHI4:
       w = (data - half) / half;
       s = copysign(half, w);
       w = w * w;
