@@ -362,7 +362,7 @@ headers = ncview.bitmaps.h ncview.includes.h             \
           overlay_usa.h interface/closed_circle_bitmap.h \
           interface/open_circle_bitmap.h \
           interface/fallback_resources.h interface/RadioWidget.h \
-          interface/helvR08.h interface/widgets.h 	\
+          interface/helvR08.h \
 	  calcalcs.h stringlist.h
 
 sources = ncview.c file.c util.c do_buttons.c             \
