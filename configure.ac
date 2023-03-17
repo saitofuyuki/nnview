@@ -9,7 +9,7 @@ m4_define([nnview_release_date],[16 Mar 2023])
 
 m4_define([nnview_major_version],[0])
 m4_define([nnview_minor_version],[3])
-m4_define([nnview_micro_version],[1])
+m4_define([nnview_micro_version],[2])
 m4_define([nnview_version],[nnview_major_version.nnview_minor_version.nnview_micro_version])
 
 m4_define([nnview_full_version],[ncview_version+nnview_version])
