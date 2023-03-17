@@ -817,3 +817,22 @@ size_t fi_check_has_grown(char *file, char *var_name, size_t *ref_sizes, int dim
       exit(-1);
     }
 }
+
+char *
+fi_att_string (int fileid, char *var_name)
+{
+  if (file_type == FILE_TYPE_NETCDF)
+    {
+      return(netcdf_att_string(fileid, var_name));
+    }
+  else if (file_type == FILE_TYPE_NIO)
+    {
+      return(nio_fi_att_string(fileid, var_name));
+    }
+  else
+    {
+      fprintf(stderr, "?unknown file_type passed to fi_att_string: %d\n",
+              file_type);
+      exit(-1);
+    }
+}

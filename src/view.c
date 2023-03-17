@@ -3024,7 +3024,7 @@ view_plot_XY_fmt_x_val( float val, int dimindex, char *s, size_t s_len )
 	void
 view_information( void )
 {
-	in_display_stuff( netcdf_att_string( view->variable->first_file->id,
+	in_display_stuff( fi_att_string( view->variable->first_file->id,
 						view->variable->name ),  
 			view->variable->name );
 }

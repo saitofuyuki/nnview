@@ -587,3 +587,42 @@ int nio_inq_varid_grp (const int fileid, const char *varname,
   if (vid < 0) return (vid);
   return (ierr);
 }
+
+char *
+nio_fi_att_string(int fileid, char *var_name)
+{
+  size_t len, retval_len=10000;
+  char *ret_string;
+  char aitem[16];
+  char attr[litem+1];
+  int gid, vid;
+  int ierr;
+  int ji;
+
+  ret_string = (char *) malloc (retval_len);
+  snprintf (ret_string, retval_len,
+            "Attributes for variable %s:\n------------------------------\n",
+            var_name );
+  ret_string[retval_len-1] = '\0';
+
+  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  if (ierr != 0)
+    {
+      fprintf(stderr, "Error in nio_fi_att_string: could not find var named \"%s\" in file!\n",
+              var_name);
+      exit(-1);
+    }
+  for (ji = 1; ji <= TNB_HEADER_ITEMS; ji++)
+    {
+      ierr = tnb_get_attr_name(aitem, ji);
+      ierr = tnb_get_attr_byid(attr, ji, fileid, gid, vid, 0);
+      if (strcmp(attr, "") != 0)
+        {
+          safe_strcat (ret_string, retval_len, aitem);
+          safe_strcat (ret_string, retval_len, ": ");
+          safe_strcat (ret_string, retval_len, attr);
+          safe_strcat (ret_string, retval_len, "\n");
+        }
+    }
+  return (ret_string);
+}

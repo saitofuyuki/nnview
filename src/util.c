@@ -2411,3 +2411,19 @@ int unpack_groupname( char *varname, int ig, char *groupname )
 	return( 0 );
 }
 
+/*******************************************************************************************/
+void safe_strcat( char *dest, size_t dest_len, char *src )
+{
+	size_t	nfree;
+
+	if( strlen(dest) >= (dest_len-1) ) {
+		dest[ dest_len-1 ] = '\0';
+		return;
+		}
+
+	nfree = (dest_len-1) - strlen(dest);	/* Must be >= 1 */
+	strncat( dest, src, nfree );
+
+	dest[ dest_len-1 ] = '\0';
+}
+
