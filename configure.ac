@@ -9,7 +9,7 @@ m4_define([nnview_release_date],[16 Mar 2023])
 
 m4_define([nnview_major_version],[0])
 m4_define([nnview_minor_version],[3])
-m4_define([nnview_micro_version],[1])
+m4_define([nnview_micro_version],[2])
 m4_define([nnview_version],[nnview_major_version.nnview_minor_version.nnview_micro_version])
 
 m4_define([nnview_full_version],[ncview_version+nnview_version])
@@ -249,7 +249,7 @@ AC_ARG_ENABLE([original-resources],
 [AS_HELP_STRING([--enable-original-resources], [Use original color resources @<:@default=no@:>@])],
  [use_org_xres=$enableval],
  [use_org_xres=no])
-AS_IF([test x"$use_org_xres" = xno], [],
+AS_IF([test x"$use_org_xres" = xyes], [],
       [
 COLOR_FOREGROUND=azure
 COLOR_BACKGROUND=DeepSkyBlue
