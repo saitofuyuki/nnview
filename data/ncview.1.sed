@@ -1,13 +1,14 @@
 .TH NCVIEW 1 local
 .SH NAME
-ncview \- graphically display netCDF files under X windows
+ncview \- graphically display netCDF or TOUZA/Nio files under X windows
 .SH SYNOPSIS
 .B ncview
 [\-beep] [\-copying] [\-frames] [\-warranty] [\-private] [\-ncolors XX] [\-extrainfo] [\-mtitle "title"] [\-minmax fast | med | slow | all] datafiles ...
 .PP
 .SH DESCRIPTION
 .I Ncview
-displays 2-D slices of a netCDF data file, using the X Window System
+displays 2-D slices of a netCDF or TOUZA/Nio (fork of gtool-3.5) data file,
+using the X Window System
 graphical user interface (Release 4 or higher).
 You can examine different floating point variables in the file, and animate
 the floating point data along the ``record dimension'' (usually time) 
@@ -52,11 +53,14 @@ are switched; the magnification button, which
 sets how much image expansion the image undergoes; and
 the transformation button, which determines what preprocessing
 the data undergoes before display.
-For this button, "Linear" means no preprocessing, "Low" means
-that the data is raised to the fourth power before conversion
-to a pixel, so that low values are emphasized; and "Hi" means that
-the fourth root of the data is taken before conversion, so
-that large values are emphasized.
+For this button, "Linear" means no preprocessing, "2 Hi" and "4 Hi" mean
+that the data is raised to the second and fourth power, respectively, before conversion
+to a pixel, so that large values are emphasized; and "1/2 Low" and "1/4 Low" mean that
+the square and fourth root, respectively of the data is taken before conversion, so
+that small values are emphasized.
+In addition, "2 SymHi", "4 SymHi", "1/2 SymLow" and "1/4 SymLow" variations are
+included, where emphasis is on either normalized edges or normalized center.
+.PP
 Next comes "Set Dim"; pressing this pops up a window which
 allows you to determine which variables are shown on the X
 and Y axes.

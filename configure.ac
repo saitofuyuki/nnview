@@ -5,14 +5,20 @@ m4_define([ncview_major_version],[2])
 m4_define([ncview_minor_version],[1])
 m4_define([ncview_micro_version],[8])
 m4_define([ncview_version],[ncview_major_version.ncview_minor_version.ncview_micro_version])
-m4_define([nnview_release_date],[9 Mar 2023])
+m4_define([nnview_release_date],[16 Mar 2023])
 
 m4_define([nnview_major_version],[0])
-m4_define([nnview_minor_version],[1])
-m4_define([nnview_version],[ncview_version+nnview_major_version.nnview_minor_version])
+m4_define([nnview_minor_version],[3])
+m4_define([nnview_micro_version],[1])
+m4_define([nnview_version],[nnview_major_version.nnview_minor_version.nnview_micro_version])
 
-AC_INIT([nnview],[nnview_version],[saitofuyuki@jamstec.go.jp])
+m4_define([nnview_full_version],[ncview_version+nnview_version])
 
+AC_INIT([nnview],[nnview_full_version],[saitofuyuki@jamstec.go.jp])
+
+dnl # Capitalize package name (like Nnview)
+dnl m4_define([AC_PACKAGE_CAPITAL], [m4_quote(m4_toupper(m4_substr(AC_PACKAGE_NAME, 0, 1))[]m4_substr(AC_PACKAGE_NAME, 1))])
+dnl # echo "[Package:] AC_PACKAGE_CAPITAL"
 # Handle netcdf
 AC_PATH_NETCDF
 
@@ -222,11 +228,43 @@ AC_ARG_ENABLE([original-name],
  [use_org_name=$enableval],
  [use_org_name=no])
 AS_CASE(["$use_org_name"],
-[no],  [program_transform_name="s,ncview,nnview,"],
-[yes], [],
-[program_transform_name="s,ncview,$use_org_name,"])
+[no],  [use_org_name=nnview],
+[yes], [use_org_name=])
+AS_IF([test "x$use_org_name" = x],
+      [ac_capital_package="Ncview"],
+      [program_transform_name="s,ncview,$use_org_name,"
+ac_capital_package=`echo "${use_org_name: :1}" | tr 'a-z' 'A-Z'`
+ac_capital_package="${ac_capital_package}${use_org_name: 1}"
+ac_upper_package=`echo "${use_org_name}" | tr 'a-z' 'A-Z'`
+])
+CAPITAL_PACKAGE_NAME="$ac_capital_package"
+UPPER_PACKAGE_NAME="$ac_upper_package"
+AC_DEFINE_UNQUOTED([NCVIEW_CLASS], ["$ac_capital_package"], [Class name])
+AC_DEFINE_UNQUOTED([CAPITAL_PACKAGE_NAME], ["$CAPITAL_PACKAGE_NAME"], [captalized package name])
+AC_SUBST([CAPITAL_PACKAGE_NAME])
+AC_SUBST([UPPER_PACKAGE_NAME])
+AM_CONDITIONAL([TRANSFORM_PACKAGE], [test "x$use_org_name" != x])
 
-PKG_PROG_PKG_CONFIG()
+AC_ARG_ENABLE([original-resources],
+[AS_HELP_STRING([--enable-original-resources], [Use original color resources @<:@default=no@:>@])],
+ [use_org_xres=$enableval],
+ [use_org_xres=no])
+AS_IF([test x"$use_org_xres" = xno], [],
+      [
+COLOR_FOREGROUND=azure
+COLOR_BACKGROUND=DeepSkyBlue
+COLOR_PLOT_BACKGROUND=SkyBlue
+AC_SUBST([COLOR_FOREGROUND])
+AC_SUBST([COLOR_BACKGROUND])
+AC_SUBST([COLOR_PLOT_BACKGROUND])
+AC_DEFINE_UNQUOTED([COLOR_BACKGROUND], ["$COLOR_BACKGROUND"], [fallback background color])
+AC_DEFINE_UNQUOTED([COLOR_FOREGROUND], ["$COLOR_FOREGROUND"], [fallback foreground color])
+AC_DEFINE_UNQUOTED([COLOR_PLOT_BACKGROUND], ["$COLOR_PLOT_BACKGROUND"], [fallback plotxy background color])])
+
+AC_DEFINE([NNVIEW_VERSION_NUMBER], ["nnview_version"], [nnview version sub id])
+AC_DEFINE([NNVIEW_VERSION_DATE], ["nnview_release_date"], [nnview release])
+
+PKG_PROG_PKG_CONFIG([1.8.1])
 PKG_PREREQ([0.29])
 PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.09.0])
 PKG_CHECK_VAR([TOUZA_FCLIBS], [touza], [fclibs])

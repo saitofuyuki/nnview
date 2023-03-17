@@ -3126,8 +3126,14 @@ view_change_transform( int delta )
 
 	switch( options.transform ) {
 		case TRANSFORM_NONE: in_set_label( LABEL_TRANSFORM, "Linear" ); break;
-		case TRANSFORM_LOW : in_set_label( LABEL_TRANSFORM, "Low"    ); break;
-		case TRANSFORM_HI  : in_set_label( LABEL_TRANSFORM, "Hi"     ); break;
+		case TRANSFORM_LOW2: in_set_label( LABEL_TRANSFORM, "1/2 Low"   ); break;
+		case TRANSFORM_LOW4: in_set_label( LABEL_TRANSFORM, "1/4 Low"   ); break;
+		case TRANSFORM_HI2 : in_set_label( LABEL_TRANSFORM, "2 Hi"    ); break;
+		case TRANSFORM_HI4 : in_set_label( LABEL_TRANSFORM, "4 Hi"    ); break;
+		case TRANSFORM_SYMLOW2: in_set_label (LABEL_TRANSFORM, "1/2 SymLow"); break;
+		case TRANSFORM_SYMLOW4: in_set_label (LABEL_TRANSFORM, "1/4 SymLow"); break;
+		case TRANSFORM_SYMHI2:  in_set_label (LABEL_TRANSFORM, "2 SymHi"); break;
+		case TRANSFORM_SYMHI4:  in_set_label (LABEL_TRANSFORM, "4 SymHi"); break;
 		default:
 			fprintf( stderr, "ncview: change_transform: unknown transform %d\n",
 				options.transform );

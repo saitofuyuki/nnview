@@ -25,12 +25,13 @@ headers = ncview.bitmaps.h ncview.includes.h             \
           overlay_usa.h interface/closed_circle_bitmap.h \
           interface/open_circle_bitmap.h \
           interface/fallback_resources.h interface/RadioWidget.h \
-          interface/helvR08.h interface/widgets.h 	\
+          interface/helvR08.h \
 	  calcalcs.h stringlist.h
 
 sources = ncview.c file.c util.c do_buttons.c             \
           file_nio.c \
           file_netcdf.c   view.c do_print.c               \
+		  transform.c \
           epic_time.c interface/interface.c               \
           interface/x_interface.c interface/dataedit.c    \
           interface/display_info.c interface/plot_xy.c    \

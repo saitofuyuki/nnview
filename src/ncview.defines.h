@@ -38,8 +38,8 @@
 #include <udunits2.h>
 #endif
 
-#define NNVIEW_ID "Nnview 0.1 SAITO Fuyuki 08 Mar 2023"
-#define NNVIEW_VERSION_STRING "+nnview-0.1"
+#define NNVIEW_ID "Nnview " NNVIEW_VERSION_NUMBER " SAITO Fuyuki " NNVIEW_VERSION_DATE
+#define NNVIEW_VERSION_STRING "+nnview~" NNVIEW_VERSION_NUMBER
 
 #define NCVIEW_ID		"Ncview 2.1.8 David W. Pierce  8 March 2017"
 #define NCVIEW_VERSION_STRING	"2.1.8"
@@ -120,10 +120,16 @@
 
 /*****************************************************************************/
 /* Transforming the data before turning it into pixels is supported */
-#define N_TRANSFORMS		3
+#define N_TRANSFORMS		9
 #define TRANSFORM_NONE		1
-#define TRANSFORM_LOW		2
-#define TRANSFORM_HI		3
+#define TRANSFORM_HI2		2
+#define TRANSFORM_HI4		3
+#define TRANSFORM_LOW4		4
+#define TRANSFORM_LOW2		5
+#define TRANSFORM_SYMHI2	6
+#define TRANSFORM_SYMHI4	7
+#define TRANSFORM_SYMLOW4	8
+#define TRANSFORM_SYMLOW2	9
 
 /*****************************************************************************
  * Maximum number of X-Y plot windows which can pop up, and the max

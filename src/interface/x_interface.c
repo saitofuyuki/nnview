@@ -40,6 +40,10 @@
 #include <setjmp.h>
 #endif
 
+#ifndef    NCVIEW_CLASS
+#  define  NCVIEW_CLASS "Ncview"
+#endif
+
 #define DEFAULT_BUTTON_WIDTH	55
 #define DEFAULT_LABEL_WIDTH	400
 #define DEFAULT_DIMLABEL_WIDTH	95
@@ -426,6 +430,7 @@ void 	varlist_mod1	(Widget w, XtPointer client_data, XtPointer call_data );
 void 	xdimlist_mod1	(Widget w, XtPointer client_data, XtPointer call_data );
 void 	ydimlist_mod1	(Widget w, XtPointer client_data, XtPointer call_data );
 void 	transform_mod1	(Widget w, XtPointer client_data, XtPointer call_data );
+void 	transform_mod3	(Widget w, XtPointer client_data, XtPointer call_data );
 void 	dimsel_callback	(Widget w, XtPointer client_data, XtPointer call_data );
 void 	error_popup_callback(Widget w, XtPointer client_data, XtPointer call_data );
 void 	diminfo_cur_mod1(Widget w, XtPointer client_data, XtPointer call_data);
@@ -463,13 +468,13 @@ void x_parse_args( int *p_argc, char **argv )
 
 	topLevel =  XtVaAppInitialize(
 		&x_app_context,	 	/* Application context           */
-		"Ncview",	 	/* Application class             */
+		NCVIEW_CLASS,	 	/* Application class             */
 		NULL, 0,	 	/* command line option list      */
 		p_argc, argv,	 	/* command line args             */
 		fallback_resources,	/* for missing app-defaults file */
 		NULL );		 	/* terminate varargs list        */
 	
-	snprintf( program_title, 130, "Ncview %s\n", PROGRAM_VERSION_STRING );
+	snprintf( program_title, 130, NCVIEW_CLASS " %s\n", PROGRAM_VERSION_STRING );
 	XtVaSetValues( topLevel, XtNtitle, program_title, NULL );
 
 	debug = 0;
@@ -618,6 +623,7 @@ void x_initialize()
 
 	static XtActionsRec new_actions[] = {
 		{"cmap_mod3",    	(XtActionProc)cmap_mod3        	},
+		{"transform_mod3",    	(XtActionProc)transform_mod3        	},
 		{"reverse_mod2",     	(XtActionProc)reverse_mod2     	},
 		{"back_mod2",     	(XtActionProc)back_mod2        	},
 		{"forward_mod2",	(XtActionProc)forward_mod2	},
@@ -1105,6 +1111,9 @@ void x_init_widgets_optionbox( Widget parent )
 		XtNwidth, app_data.button_width,
 		XtNsensitive, False,
 		NULL);
+	XtAugmentTranslations( transform_widget,
+		XtParseTranslationTable(
+			"<Btn3Down>,<Btn3Up>: transform_mod3()" ));  /* for when the user RIGHT clicks on the button */
 
 	dimset_widget = XtVaCreateManagedWidget(
 		"dimset",
@@ -2413,6 +2422,12 @@ void blowup_mod2( Widget w, XButtonEvent *event, String *params, Cardinal *num_p
 void transform_mod1( Widget widget, XtPointer client_data, XtPointer call_data)
 {
 	in_button_pressed( BUTTON_TRANSFORM, MOD_1 );
+}
+
+/*************************************************************************************************/
+void transform_mod3( Widget widget, XtPointer client_data, XtPointer call_data)
+{
+	in_button_pressed( BUTTON_TRANSFORM, MOD_3 );
 }
 
 /*======================================================================================

@@ -38,10 +38,12 @@ static Widget
 		range_popupcanvas_widget,
 			range_min_label_widget,
 			range_min_text_widget,
+			range_min_clear_widget,
 			range_min_import_widget,
 			range_min_export_widget,
 			range_max_label_widget,
 			range_max_text_widget,
+			range_max_clear_widget,
 			range_max_import_widget,
 			range_max_export_widget,
 			range_reset_global_widget,
@@ -62,9 +64,11 @@ static XEvent   range_event;
 void 	range_popup_callback( Widget widget, XtPointer client_data, XtPointer call_data);
 void 	range_max_export_callback( Widget widget, XtPointer client_data, XtPointer call_data);
 void 	range_max_import_callback( Widget widget, XtPointer client_data, XtPointer call_data);
+void 	range_max_clear_callback( Widget widget, XtPointer client_data, XtPointer call_data);
 static void range_max_loseown_proc( Widget w, Atom *selection );
 void 	range_min_export_callback( Widget widget, XtPointer client_data, XtPointer call_data);
 void 	range_min_import_callback( Widget widget, XtPointer client_data, XtPointer call_data);
+void 	range_min_clear_callback( Widget widget, XtPointer client_data, XtPointer call_data);
 void 	reset_global_callback( Widget w, XtPointer client_data, XtPointer call_data);
 void 	range_symmetric_callback( Widget w, XtPointer client_data, XtPointer call_data);
 static void range_min_loseown_proc( Widget w, Atom *selection );
@@ -188,11 +192,21 @@ x_range_init()
 		XtNwidth, MINMAX_TEXT_WIDTH,
 		NULL );
 
+	range_min_clear_widget = XtVaCreateManagedWidget(
+		"Clear",
+		commandWidgetClass,
+		range_popupcanvas_widget,
+		XtNfromHoriz, range_min_text_widget,
+		NULL);
+
+        XtAddCallback (range_min_clear_widget, XtNcallback,
+		range_min_clear_callback, (XtPointer)NULL);
+
 	range_min_import_widget = XtVaCreateManagedWidget(
 		"Import",
 		commandWidgetClass,
 		range_popupcanvas_widget,
-		XtNfromHoriz, range_min_text_widget,
+		XtNfromHoriz, range_min_clear_widget,
 		NULL);
 
         XtAddCallback( range_min_import_widget, XtNcallback, 
@@ -228,12 +242,24 @@ x_range_init()
 		XtNfromHoriz, range_max_label_widget,
 		NULL );
 
+	range_max_clear_widget = XtVaCreateManagedWidget(
+		"Clear",
+		commandWidgetClass,
+		range_popupcanvas_widget,
+		XtNfromVert, range_min_clear_widget,
+		XtNfromHoriz, range_max_text_widget,
+		NULL);
+
+        XtAddCallback (range_max_clear_widget, XtNcallback,
+		range_max_clear_callback, (XtPointer)NULL);
+
+
 	range_max_import_widget = XtVaCreateManagedWidget(
 		"Import",
 		commandWidgetClass,
 		range_popupcanvas_widget,
 		XtNfromVert, range_min_import_widget,
-		XtNfromHoriz, range_max_text_widget,
+		XtNfromHoriz, range_max_clear_widget,
 		NULL);
 
         XtAddCallback( range_max_import_widget, XtNcallback, 
@@ -257,7 +283,7 @@ x_range_init()
 		XtNfromVert, range_max_export_widget,
 		NULL);
 
-        XtAddCallback( range_symmetric_widget, XtNcallback, 
+        XtAddCallback( range_symmetric_widget, XtNcallback,
 		range_symmetric_callback, (XtPointer)&global_min_max);
 
 	range_reset_global_widget = XtVaCreateManagedWidget(
@@ -389,6 +415,18 @@ range_min_export_callback( Widget w, XtPointer client_data, XtPointer call_data)
 		NULL ) == False ) {
 			fprintf( stderr, "Hey! XtOwnSelection min failed!\n" );
 			}
+}
+
+	void
+range_min_clear_callback (Widget w, XtPointer client_data, XtPointer call_data)
+{
+  XtVaSetValues (range_min_text_widget, XtNstring, "", NULL);
+}
+
+	void
+range_max_clear_callback (Widget w, XtPointer client_data, XtPointer call_data)
+{
+  XtVaSetValues (range_max_text_widget, XtNstring, "", NULL);
 }
 
 	void

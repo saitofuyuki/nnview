@@ -1,3 +1,17 @@
+
+Release-0.3.1 / 2023-03-17
+==========================
+
+  * (transform) modify labels.
+  * (autotools) fix and clean the distribution.
+
+Release-0.3 / 2023-03-16
+========================
+
+  * (transform) More transformation introduced.
+  * (range) clear button introduced.
+  * minimum version is set for pkg-config.
+
 Release-0.1 / 2023-03-09
 ========================
 
