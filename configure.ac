@@ -249,7 +249,7 @@ AC_ARG_ENABLE([original-resources],
 [AS_HELP_STRING([--enable-original-resources], [Use original color resources @<:@default=no@:>@])],
  [use_org_xres=$enableval],
  [use_org_xres=no])
-AS_IF([test x"$use_org_xres" = xno], [],
+AS_IF([test x"$use_org_xres" = xyes], [],
       [
 COLOR_FOREGROUND=azure
 COLOR_BACKGROUND=DeepSkyBlue
