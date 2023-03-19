@@ -3,7 +3,8 @@
 ========
 
 Nnview is an extension of Ncview by David W. Pierce, which includes
-file access ability to TOUZA/Nio formats.
+file access ability to TOUZA/Nio formats, as well as some additional
+features lacked in the original Ncview.
 
 Everything related to copying, etc, follows the original policy of
 Ncview except where explicitly indicated.
@@ -13,7 +14,7 @@ Copyright (c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
 
 Nnview is maintained by SAITO Fuyuki.
 
-You need TOUZA library (1.09.0 or later) to build Nnview.
+You need TOUZA library (1.10 or later) to build Nnview.
 TOUZA is available on https://github.com/saitofuyuki/touza.
 
 Several files in the original package are renamed or archived under
@@ -27,7 +28,7 @@ How to install nnview
 See file "INSTALL" for the original description.  This file describes
 only Nnview related staffs.
 
-You MUST install TOUZA library version 1.09.0 or later before trying
+You MUST install TOUZA library version 1.10 or later before trying
 to install nnview.  Note that, TOUZA library also supports NetCDF and
 optionally requires NetCDF installation beforehand.  If you use TOUZA
 library for other purposes than Nnview, you should install NetCDF
