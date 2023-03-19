@@ -62,12 +62,12 @@ nio_fi_confirm (const char *name)
   if (init == 0)
     {
       if (options.debug) levv = +99;
-      jerr = tni_init(levv, mode);
+      jerr = tnb_init(levv, mode);
       if (jerr == 0) init = init + 1;
     }
   if (init > 0)
     {
-      krect = tni_file_is_nio(name);
+      krect = tnb_file_is_nio(name);
       if (options.debug) fprintf(stderr, "nio_fi_confirm: krect=%d\n", krect);
       if (krect < 0) return (FALSE);
       return (TRUE);
@@ -79,7 +79,7 @@ int nio_fi_initialize(const char *name)
 {
   int fileid, ierr;
 
-  fileid = tni_file_open(name, 0);
+  fileid = tnb_file_open(name, 0);
   if (fileid < 0)
     {
       fprintf(stderr, "nio_fi_initialize: can't properly open file %s\n", name);
@@ -100,7 +100,7 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
   size_t *size, total_size;
   int  nrecs;
 
-  n_vars = tni_group_vars(fileid, gid);
+  n_vars = tnb_group_vars(fileid, gid);
 
   if (n_vars < 0)
     {
@@ -108,7 +108,7 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
       exit(-1);
     }
 
-  nrecs = tni_group_recs(fileid, gid);
+  nrecs = tnb_group_recs(fileid, gid);
   if (nrecs < 0)
     {
       fprintf(stderr, "nio_fi_list_vars: error on query nrecs %d %d\n", fileid, gid);
@@ -117,7 +117,7 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
 
   for (jv = 0; jv < n_vars; jv++)
     {
-      jerr = tni_var_name(var_name, fileid, gid, jv);
+      jerr = tnb_var_name(var_name, fileid, gid, jv);
       if (jerr != 0) exit(-1);
       grp_var_name[0] = '\0';
       if ((strlen(groupname) == 0) || ((strlen(groupname) == 1) && (groupname[0] == '/')))
@@ -172,10 +172,10 @@ Stringlist *nio_fi_list_vars(const int fileid)
   if (options.debug)
     fprintf(stderr, "nio_fi_list_vars: entering for file %d\n", fileid);
 
-  n_groups = tni_file_groups(fileid);
+  n_groups = tnb_file_groups(fileid);
   if (n_groups < 0)
     {
-      fprintf(stderr, "nio_fi_list_vars: error on tni_file_groups %d, %d\n", fileid, n_groups);
+      fprintf(stderr, "nio_fi_list_vars: error on tnb_file_groups %d, %d\n", fileid, n_groups);
       exit (-1);
     }
   for (jgrp = 0; jgrp < n_groups; jgrp++)
@@ -210,7 +210,7 @@ size_t *nio_fi_var_size (const int fileid, const char * var_name)
               var_name);
       exit(-1);
     }
-  nco = tni_var_nco(fileid, gid, vid);
+  nco = tnb_var_nco(fileid, gid, vid);
   n_dims = nco + 1;
   if (nco < 0)
     {
@@ -221,10 +221,10 @@ size_t *nio_fi_var_size (const int fileid, const char * var_name)
   for (jco = 0; jco < nco; jco++)
     {
       jd = jco + dim_ofs;
-      dims = tni_co_size(fileid, gid, vid, jco);
+      dims = tnb_co_size(fileid, gid, vid, jco);
       ret_val[jd] = dims;
     }
-  ret_val[dim_rec] = tni_group_recs(fileid, gid);
+  ret_val[dim_rec] = tnb_group_recs(fileid, gid);
 
   return (ret_val);
 }
@@ -236,14 +236,14 @@ int nio_fi_var_dimsize (size_t **size, const int fileid, const int gid, const in
   int nrecs;
   size_t *ret_val;
 
-  nco = tni_var_nco(fileid, gid, vid);
+  nco = tnb_var_nco(fileid, gid, vid);
   n_dims = nco + 1;
   if (nco < 0 || n_dims > ldim)
     {
       fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", fileid, gid, vid);
       exit (-1);
     }
-  nrecs = tni_group_recs(fileid, gid);
+  nrecs = tnb_group_recs(fileid, gid);
   if (nrecs < 0)
     {
       fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", fileid, gid, vid);
@@ -253,7 +253,7 @@ int nio_fi_var_dimsize (size_t **size, const int fileid, const int gid, const in
   for (jco = 0; jco < nco; jco++)
     {
       jd = jco + dim_ofs;
-      dims = tni_co_size(fileid, gid, vid, jco);
+      dims = tnb_co_size(fileid, gid, vid, jco);
       ret_val[jd] = dims;
     }
   ret_val[dim_rec] = nrecs;
@@ -277,7 +277,7 @@ void nio_fill_aux_data(const int fileid, const char *var_name, FDBlist *fdb)
   if (ierr == 0)
     {
       rec_unit = (char *) malloc (litem * sizeof(char));
-      ierr = tni_get_attr(rec_unit, "UTIM", fileid, gid, -1, -1);
+      ierr = tnb_get_attr(rec_unit, "UTIM", fileid, gid, -1, -1);
     }
   if (ierr == 0)
     {
@@ -303,7 +303,7 @@ int nio_fi_n_dims (const int fileid, const char *var_name)
               var_name);
       exit(-1);
     }
-  n_dims = tni_var_nco(fileid, gid, vid);
+  n_dims = tnb_var_nco(fileid, gid, vid);
   return n_dims + 1;
 }
 
@@ -352,12 +352,12 @@ char *nio_dim_id_to_name(const int fileid, const char *var_name, const int dim_i
     }
   else
     {
-      ierr = tni_co_name(dim_name, fileid, gid, vid, dim_id - dim_ofs);
+      ierr = tnb_co_name(dim_name, fileid, gid, vid, dim_id - dim_ofs);
     }
   if (ierr != 0)
     {
       fprintf (stderr, "ncview: nio_dim_id_to_name: error on ");
-      fprintf (stderr, "tni_co_name call.  Variable=%s\n", var_name);
+      fprintf (stderr, "tnb_co_name call.  Variable=%s\n", var_name);
       exit(-1);
     }
   /* printf("dim_name: %s\n", dim_name); */
@@ -386,7 +386,7 @@ int nio_dim_name_to_id(const int fileid, const char *var_name,
     }
   else
     {
-      cidx = tni_co_idx(fileid, gid, vid, dim_name);
+      cidx = tnb_co_idx(fileid, gid, vid, dim_name);
       if (cidx >= 0) cidx = cidx + dim_ofs;
     }
 
@@ -439,7 +439,7 @@ Stringlist *nio_scannable_dims(const int fileid, const char *var_name)
               var_name);
       exit(-1);
     }
-  n_dims = tni_var_nco(fileid, gid, vid);
+  n_dims = tnb_var_nco(fileid, gid, vid);
   if (n_dims < 0)
     {
       fprintf (stderr, "Error in nio_scannable_dims: %d %d %d\n", fileid, gid, vid);
@@ -448,10 +448,10 @@ Stringlist *nio_scannable_dims(const int fileid, const char *var_name)
   stringlist_add_string(&dimlist, NAME_REC, NULL, SLTYPE_NULL);
   for(jd = 0; jd < n_dims; jd++)
     {
-      dims = tni_co_size(fileid, gid, vid, jd);
+      dims = tnb_co_size(fileid, gid, vid, jd);
       if(dims > 1)
         {
-          ierr = tni_co_name(dim_name, fileid, gid, vid, jd);
+          ierr = tnb_co_name(dim_name, fileid, gid, vid, jd);
           stringlist_add_string(&dimlist, dim_name, NULL, SLTYPE_NULL);
         }
     }
@@ -481,7 +481,7 @@ void nio_fi_get_data(const int fileid, const char *var_name,
               var_name);
       exit(-1);
     }
-  n_dims = tni_var_nco(fileid, gid, vid);
+  n_dims = tnb_var_nco(fileid, gid, vid);
   if (n_dims < 0)
     {
       fprintf (stderr, "Error in nio_fi_get_data:: %d %d %d\n", fileid, gid, vid);
@@ -508,10 +508,10 @@ void nio_fi_get_data(const int fileid, const char *var_name,
   for (jr = 0; jr < count[dim_rec]; jr++)
     {
       rec = start_pos[dim_rec] + jr;
-      jerr = tni_get_attr_float(&vmiss, "MISS", fileid, gid, vid, rec);
+      jerr = tnb_get_attr_float(&vmiss, "MISS", fileid, gid, vid, rec);
       if (ierr == 0)
         {
-          ierr = tni_var_read_float(&data[sp_size * jr], rec, sp_start, sp_count,
+          ierr = tnb_var_read_float(&data[sp_size * jr], rec, sp_start, sp_count,
                                     fileid, gid, vid);
         }
       if (jerr == 0)
@@ -568,7 +568,7 @@ int nio_inq_varid_grp (const int fileid, const char *varname,
     {
       /* no group */
       gid = 0;
-      vid = tni_var_id(fileid, gid, varname);
+      vid = tnb_var_id(fileid, gid, varname);
     }
   else
     {
@@ -577,7 +577,7 @@ int nio_inq_varid_grp (const int fileid, const char *varname,
       gid = (int) gtmp;
       vp++;
       /* printf("gid, vp: %d %s\n", gid, vp); */
-      vid = tni_var_id(fileid, gid, vp);
+      vid = tnb_var_id(fileid, gid, vp);
     }
   *groupid = gid;
   *varid   = vid;
