@@ -21,6 +21,13 @@
  * pierce@cirrus.ucsd.edu
  */
 
+/*
+ * Notice for Nnview (Ncview+TOUZA/Nio extension)
+ *    Maintainer: SAITO Fuyuki
+ *    Copyright (C) 2022-2023
+ *              Japan Agency for Marine-Earth Science and Technology
+ */
+
 /******************************************************************************
  *
  *	These routines handle the tricky job of setting the proper "view"
