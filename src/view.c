@@ -21,6 +21,13 @@
  * pierce@cirrus.ucsd.edu
  */
 
+/*
+ * Notice for Nnview (Ncview+TOUZA/Nio extension)
+ *    Maintainer: SAITO Fuyuki
+ *    Copyright (C) 2022-2023
+ *              Japan Agency for Marine-Earth Science and Technology
+ */
+
 /******************************************************************************
  *
  *	These routines handle the tricky job of setting the proper "view"
@@ -3024,7 +3031,7 @@ view_plot_XY_fmt_x_val( float val, int dimindex, char *s, size_t s_len )
 	void
 view_information( void )
 {
-	in_display_stuff( netcdf_att_string( view->variable->first_file->id,
+	in_display_stuff( fi_att_string( view->variable->first_file->id,
 						view->variable->name ),  
 			view->variable->name );
 }

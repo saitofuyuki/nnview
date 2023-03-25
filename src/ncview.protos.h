@@ -21,7 +21,7 @@
  */
 
 /*
- * Notice for Ncview+TOUZA/Nio extension
+ * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
  *    Copyright (C) 2022-2023
  *              Japan Agency for Marine-Earth Science and Technology
@@ -78,7 +78,7 @@ void 	fi_fill_value	 ( NCVar *var, float *fillval );
 int 	fi_recdim_id     ( int fileid );
 char *fi_get_char_att(int fileid, char *var_name, char *att_name);
 size_t fi_check_has_grown(char *file, char *var_name, size_t *ref_sizes, int dim_id);
-
+char *fi_att_string(int fileid, char *var_name);
 /******************************************************************************
  * in file_netcdf.c, netcdf specific routines 
  */
@@ -154,6 +154,7 @@ char *nio_var_units(const int fileid, const char *var_name);
 char *nio_long_var_name(const int fileid, const char *var_name);
 int nio_fi_recdim_id(const int fileid);
 size_t nio_fi_check_has_grown(char *file, char *var_name, size_t *ref_sizes, int dim_id);
+char *nio_fi_att_string(int fileid, char *var_name);
 /******************************************************************************
  * in util.c, general utility routines
  */
@@ -189,6 +190,7 @@ int 	unpack_groupname( char *varname, int ig, char *groupname );
 void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
 Stringlist *get_group_list  ( NCVar *vars );
+void safe_strcat (char *dest, size_t dest_len, char *src);
 
 /******************************************************************************
  * in interface.c 
