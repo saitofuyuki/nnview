@@ -21,6 +21,13 @@
  * pierce@cirrus.ucsd.edu
  */
 
+/*
+ * Notice for Nnview (Ncview+TOUZA/Nio extension)
+ *    Maintainer: SAITO Fuyuki
+ *    Copyright (C) 2022-2023
+ *              Japan Agency for Marine-Earth Science and Technology
+ */
+
 /*******************************************************************************
  * 	util.c
  *
@@ -2409,5 +2416,21 @@ int unpack_groupname( char *varname, int ig, char *groupname )
 	strcpy( groupname, ts+i0 );
 
 	return( 0 );
+}
+
+/*******************************************************************************************/
+void safe_strcat( char *dest, size_t dest_len, char *src )
+{
+	size_t	nfree;
+
+	if( strlen(dest) >= (dest_len-1) ) {
+		dest[ dest_len-1 ] = '\0';
+		return;
+		}
+
+	nfree = (dest_len-1) - strlen(dest);	/* Must be >= 1 */
+	strncat( dest, src, nfree );
+
+	dest[ dest_len-1 ] = '\0';
 }
 
