@@ -1,5 +1,11 @@
+Release-0.4.1 / 2023-04-04
+==========================
+
+  * TOUZA library version requirement
+  * Enable null dimension names to handle.
+
 Release-0.4.0 / 2023-03-25
-==================
+==========================
   * [IMPORTANT] requires touza 1.10 or later.
 
 Release-0.3.2 / 2023-03-17
