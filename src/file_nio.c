@@ -345,15 +345,7 @@ char *nio_dim_id_to_name(const int fileid, const char *var_name, const int dim_i
       exit(-1);
     }
   dim_name = (char *) malloc(litem + 1);
-  if (dim_id == dim_rec)
-    {
-      ierr = 0;
-      strcpy(dim_name, NAME_REC);
-    }
-  else
-    {
-      ierr = tnb_co_name(dim_name, fileid, gid, vid, dim_id - dim_ofs);
-    }
+  ierr = nio_fi_co_name(dim_name, fileid, gid, vid, dim_id);
   if (ierr != 0)
     {
       fprintf (stderr, "ncview: nio_dim_id_to_name: error on ");
@@ -387,7 +379,22 @@ int nio_dim_name_to_id(const int fileid, const char *var_name,
   else
     {
       cidx = tnb_co_idx(fileid, gid, vid, dim_name);
-      if (cidx >= 0) cidx = cidx + dim_ofs;
+      if (cidx >= 0)
+        {
+          cidx = cidx + dim_ofs;
+        }
+      else
+        {
+          ierr = sscanf(dim_name, "c%d", &cidx);
+          if (ierr == 1)
+            {
+              ierr = 0;
+            }
+          else
+            {
+              cidx = -1;
+            }
+        }
     }
 
   return(cidx);
@@ -451,7 +458,8 @@ Stringlist *nio_scannable_dims(const int fileid, const char *var_name)
       dims = tnb_co_size(fileid, gid, vid, jd);
       if(dims > 1)
         {
-          ierr = tnb_co_name(dim_name, fileid, gid, vid, jd);
+          ierr = nio_fi_co_name(dim_name, fileid, gid, vid, jd + dim_ofs);
+          /* ierr = tnb_co_name(dim_name, fileid, gid, vid, jd); */
           stringlist_add_string(&dimlist, dim_name, NULL, SLTYPE_NULL);
         }
     }
@@ -513,6 +521,10 @@ void nio_fi_get_data(const int fileid, const char *var_name,
         {
           ierr = tnb_var_read_float(&data[sp_size * jr], rec, sp_start, sp_count,
                                     fileid, gid, vid);
+        }
+      if (options.debug)
+        {
+          fprintf(stderr, "read: %d %ld\n", ierr, sp_size);
         }
       if (jerr == 0)
         {
@@ -625,4 +637,27 @@ nio_fi_att_string(int fileid, char *var_name)
         }
     }
   return (ret_string);
+}
+
+int
+nio_fi_co_name(char * const name,
+               const int handle, const int gid, const int vid,
+               const int dim_id)
+{
+  int ierr;
+  if (dim_id == dim_rec)
+    {
+      ierr = 0;
+      strcpy(name, NAME_REC);
+    }
+  else
+    {
+      ierr = tnb_co_name(name, handle, gid, vid, dim_id - dim_ofs);
+      if (strlen(name) == 0)
+        {
+          sprintf(name, "c%d", dim_id);
+          ierr = 0;
+        }
+    }
+  return(ierr);
 }

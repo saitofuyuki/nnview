@@ -14,7 +14,7 @@ Copyright (c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
 
 Nnview is maintained by SAITO Fuyuki.
 
-You need TOUZA library (1.10 or later) to build Nnview.
+You need TOUZA library (1.11.2 or later) to build Nnview.
 TOUZA is available on https://github.com/saitofuyuki/touza.
 
 Several files in the original package are renamed or archived under
@@ -28,7 +28,7 @@ How to install nnview
 See file "INSTALL" for the original description.  This file describes
 only Nnview related staffs.
 
-You MUST install TOUZA library version 1.10 or later before trying
+You MUST install TOUZA library version 1.11.2 or later before trying
 to install nnview.  Note that, TOUZA library also supports NetCDF and
 optionally requires NetCDF installation beforehand.  If you use TOUZA
 library for other purposes than Nnview, you should install NetCDF
