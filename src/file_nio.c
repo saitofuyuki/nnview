@@ -661,3 +661,16 @@ nio_fi_co_name(char * const name,
     }
   return(ierr);
 }
+
+void
+nio_fi_close (const int fileid)
+{
+  int ierr;
+
+  ierr = tnb_file_close (fileid);
+  if (ierr != 0)
+    {
+      fprintf (stderr, "nio_fi_close: error on tnb_close\n");
+      exit (-1);
+    }
+}
