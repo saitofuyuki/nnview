@@ -252,7 +252,7 @@ AC_ARG_ENABLE([original-resources],
 AS_IF([test x"$use_org_xres" = xyes], [],
       [
 COLOR_FOREGROUND=azure
-COLOR_BACKGROUND=DeepSkyBlue
+COLOR_BACKGROUND=DeepSkyBlue4
 COLOR_PLOT_BACKGROUND=SkyBlue
 AC_SUBST([COLOR_FOREGROUND])
 AC_SUBST([COLOR_BACKGROUND])
