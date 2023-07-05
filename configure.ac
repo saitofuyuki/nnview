@@ -6,10 +6,10 @@ m4_define([ncview_minor_version],[1])
 m4_define([ncview_micro_version],[8])
 m4_define([ncview_version],[ncview_major_version.ncview_minor_version.ncview_micro_version])
 
-m4_define([nnview_release_date],[4 Apr 2023])
+m4_define([nnview_release_date],[6 Jul 2023])
 m4_define([nnview_major_version],[0])
 m4_define([nnview_minor_version],[4])
-m4_define([nnview_micro_version],[1])
+m4_define([nnview_micro_version],[2])
 m4_define([nnview_version],[nnview_major_version.nnview_minor_version.nnview_micro_version])
 
 m4_define([nnview_full_version],[ncview_version+nnview_version])
@@ -266,7 +266,7 @@ AC_DEFINE([NNVIEW_VERSION_DATE], ["nnview_release_date"], [nnview release])
 
 PKG_PROG_PKG_CONFIG([1.8.1])
 PKG_PREREQ([0.29])
-PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.10])
+PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.12])
 PKG_CHECK_VAR([TOUZA_FCLIBS], [touza], [fclibs])
 
 #----------------------------------------------------------------------------
