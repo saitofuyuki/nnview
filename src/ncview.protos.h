@@ -157,6 +157,7 @@ size_t nio_fi_check_has_grown(char *file, char *var_name, size_t *ref_sizes, int
 char *nio_fi_att_string(int fileid, char *var_name);
 int nio_fi_co_name(char * const name,
                    const int handle, const int gid, const int vid, const int dim_id);
+void nio_fi_close (const int fileid);
 /******************************************************************************
  * in util.c, general utility routines
  */

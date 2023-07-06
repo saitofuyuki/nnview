@@ -13,9 +13,9 @@ Ncview*version:		1.93
 ! is 0, then no color coding of the dimensionality of the variable is done.
 Ncview*varColors:	1
 !
-Ncview*foreground1d:	grey
-Ncview*foreground2d:	lightblue3
-Ncview*foreground3d:	pink2
+Ncview*foreground1d:	grey80
+Ncview*foreground2d:	powderblue
+Ncview*foreground3d:	orangered
 Ncview*foreground4d:	yellow
 Ncview*foreground5d:	white
 !

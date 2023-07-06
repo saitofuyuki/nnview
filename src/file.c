@@ -468,7 +468,13 @@ fi_get_data_iterate( NCVar *var, size_t *virt_start_pos, size_t *count, void *da
 			netcdf_fi_get_data( file->id, var->name, act_start_pos, 
 				  count2, ((float *)data)+it*prod_lower_dims, 
 				  	(NetCDFOptions *)var->first_file->aux_data );
-		else
+        else if (file_type == FILE_TYPE_NIO)
+          {
+            nio_fi_get_data(file->id, var->name, act_start_pos,
+                            count2, ((float *) data) + it * prod_lower_dims,
+                            (NetCDFOptions *) var->first_file->aux_data);
+          }
+        else
 			{
 			fprintf( stderr, "?unknown file_type passed to fi_get_data_iterate: %d\n",
 				file_type );
@@ -487,6 +493,10 @@ fi_close( int fileid )
 {
 	if( file_type == FILE_TYPE_NETCDF )
 		netcdf_fi_close( fileid );
+    else if (file_type == FILE_TYPE_NIO)
+      {
+        nio_fi_close (fileid);
+      }
 	else
 		{
 		fprintf( stderr, "?unknown file_type passed to fi_close: %d\n",
