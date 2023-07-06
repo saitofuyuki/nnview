@@ -1,3 +1,9 @@
+Release-0.4.2 / 2023-07-06
+==========================
+
+  * Increase TOUZA library version requirement
+  * (severe) nio block introduced in fi_get_data_iterate.
+
 Release-0.4.1 / 2023-04-04
 ==========================
 
