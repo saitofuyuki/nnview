@@ -90,7 +90,7 @@ int nio_fi_initialize(const char *name)
 
 void
 nio_fi_list_vars_inner (Stringlist **ret_val,
-                        int fileid, int gid, char *groupname)
+                        int grph, char *groupname)
 {
   int  jv, n_vars;
   char var_name[lvar+1];
@@ -100,24 +100,24 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
   size_t *size, total_size;
   int  nrecs;
 
-  n_vars = tnb_group_vars(fileid, gid);
+  n_vars = tnb_group_vars(grph);
 
   if (n_vars < 0)
     {
-      fprintf(stderr, "nio_fi_list_vars: error on query nvars %d %d\n", fileid, gid);
+      fprintf(stderr, "nio_fi_list_vars: error on query nvars %d %d\n", grph);
       exit(-1);
     }
 
-  nrecs = tnb_group_recs(fileid, gid);
+  nrecs = tnb_group_recs(grph);
   if (nrecs < 0)
     {
-      fprintf(stderr, "nio_fi_list_vars: error on query nrecs %d %d\n", fileid, gid);
+      fprintf(stderr, "nio_fi_list_vars: error on query nrecs %d %d\n", grph);
       exit(-1);
     }
 
   for (jv = 0; jv < n_vars; jv++)
     {
-      jerr = tnb_var_name(var_name, fileid, gid, jv);
+      jerr = tnb_var_name(var_name, grph, jv);
       if (jerr != 0) exit(-1);
       grp_var_name[0] = '\0';
       if ((strlen(groupname) == 0) || ((strlen(groupname) == 1) && (groupname[0] == '/')))
@@ -132,7 +132,7 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
         fprintf(stderr,
                 "nnview/nio_fi_list_vars_inner: "
                 "checking to see if a displayable var: >%s<\n", grp_var_name);
-      nd = nio_fi_var_dimsize(&size, fileid, gid, jv);
+      nd = nio_fi_var_dimsize(&size, grph, jv);
       total_size = 1L;
       eff_ndims  = 0;
       for (jd = 0; jd < nd; jd++)
@@ -166,7 +166,7 @@ nio_fi_list_vars_inner (Stringlist **ret_val,
 Stringlist *nio_fi_list_vars(const int fileid)
 {
   Stringlist *retval = NULL;
-  int jgrp, n_groups;
+  int jgrp, n_groups, grph;
   char groupname[lgroup+1];
 
   if (options.debug)
@@ -178,10 +178,20 @@ Stringlist *nio_fi_list_vars(const int fileid)
       fprintf(stderr, "nio_fi_list_vars: error on tnb_file_groups %d, %d\n", fileid, n_groups);
       exit (-1);
     }
-  for (jgrp = 0; jgrp < n_groups; jgrp++)
+  if (n_groups == 1)
     {
-      sprintf(groupname, "G%d", jgrp);
-      nio_fi_list_vars_inner(&retval, fileid, jgrp, groupname);
+      groupname[0] = '\0';
+      grph = tnb_group(fileid, 0);
+      nio_fi_list_vars_inner(&retval, grph, groupname);
+    }
+  else
+    {
+      for (jgrp = 0; jgrp < n_groups; jgrp++)
+        {
+          grph = tnb_group(fileid, jgrp);
+          tnb_group_name(groupname, grph);
+          nio_fi_list_vars_inner(&retval, grph, groupname);
+        }
     }
 
   if (options.debug)
@@ -196,64 +206,64 @@ Stringlist *nio_fi_list_vars(const int fileid)
 size_t *nio_fi_var_size (const int fileid, const char * var_name)
 {
   size_t *ret_val, dim_size;
-  int gid, vid;
+  int grph, vid;
   int ierr;
   int jd, n_dims, jco, nco;
   int dims;
 
   ret_val = NULL;
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_fi_var_size: could not find var named \"%s\" in file!\n",
               var_name);
       exit(-1);
     }
-  nco = tnb_var_nco(fileid, gid, vid);
+  nco = tnb_co_size(grph, vid);
   n_dims = nco + 1;
   if (nco < 0)
     {
-      fprintf (stderr, "Error in nio_fi_var_size: %d %d %d\n", fileid, gid, vid);
+      fprintf (stderr, "Error in nio_fi_var_size: %d %d %d\n", fileid, grph, vid);
       exit (-1);
     }
   ret_val = (size_t *) malloc (n_dims * sizeof(size_t));
   for (jco = 0; jco < nco; jco++)
     {
       jd = jco + dim_ofs;
-      dims = tnb_co_size(fileid, gid, vid, jco);
+      dims = tnb_co_len(grph, vid, jco);
       ret_val[jd] = dims;
     }
-  ret_val[dim_rec] = tnb_group_recs(fileid, gid);
+  ret_val[dim_rec] = tnb_group_recs(grph);
 
   return (ret_val);
 }
 
-int nio_fi_var_dimsize (size_t **size, const int fileid, const int gid, const int vid)
+int nio_fi_var_dimsize (size_t **size, const int grph, const int vid)
 {
   int jd, n_dims, jco, nco;
   int dims;
   int nrecs;
   size_t *ret_val;
 
-  nco = tnb_var_nco(fileid, gid, vid);
+  nco = tnb_co_size(grph, vid);
   n_dims = nco + 1;
   if (nco < 0 || n_dims > ldim)
     {
-      fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", fileid, gid, vid);
+      fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", grph, vid);
       exit (-1);
     }
-  nrecs = tnb_group_recs(fileid, gid);
+  nrecs = tnb_group_recs(grph);
   if (nrecs < 0)
     {
-      fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", fileid, gid, vid);
+      fprintf (stderr, "Error in nio_fi_var_dimsize: %d %d %d\n", grph, vid);
       exit (-1);
     }
   ret_val = (size_t *) malloc (n_dims * sizeof(size_t));
   for (jco = 0; jco < nco; jco++)
     {
       jd = jco + dim_ofs;
-      dims = tnb_co_size(fileid, gid, vid, jco);
+      dims = tnb_co_len(grph, vid, jco);
       ret_val[jd] = dims;
     }
   ret_val[dim_rec] = nrecs;
@@ -263,11 +273,11 @@ int nio_fi_var_dimsize (size_t **size, const int fileid, const int gid, const in
 
 void nio_fill_aux_data(const int fileid, const char *var_name, FDBlist *fdb)
 {
-  int vid, gid;
+  int vid, grph;
   int ierr;
   char *rec_unit = NULL;
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_fill_aux_data: could not find var named \"%s\" in file!\n",
@@ -277,7 +287,7 @@ void nio_fill_aux_data(const int fileid, const char *var_name, FDBlist *fdb)
   if (ierr == 0)
     {
       rec_unit = (char *) malloc (litem * sizeof(char));
-      ierr = tnb_get_attr(rec_unit, "UTIM", fileid, gid, -1, -1);
+      ierr = tnb_get_attr(rec_unit, "UTIM", grph, -1, -1);
     }
   if (ierr == 0)
     {
@@ -291,19 +301,19 @@ void nio_fill_aux_data(const int fileid, const char *var_name, FDBlist *fdb)
 
 int nio_fi_n_dims (const int fileid, const char *var_name)
 {
-  int vid, gid;
+  int vid, grph;
   int ierr;
   char *rec_unit = NULL;
   int n_dims;
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_fi_n_dims: could not find var named \"%s\" in file!\n",
               var_name);
       exit(-1);
     }
-  n_dims = tnb_var_nco(fileid, gid, vid);
+  n_dims = tnb_co_size(grph, vid);
   return n_dims + 1;
 }
 
@@ -333,10 +343,10 @@ char *nio_get_char_att(const int fileid,
 char *nio_dim_id_to_name(const int fileid, const char *var_name, const int dim_id)
 {
   int ierr;
-  int gid, vid;
+  int grph, vid;
   char *dim_name;
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
 
   if (ierr != 0)
     {
@@ -345,7 +355,7 @@ char *nio_dim_id_to_name(const int fileid, const char *var_name, const int dim_i
       exit(-1);
     }
   dim_name = (char *) malloc(litem + 1);
-  ierr = nio_fi_co_name(dim_name, fileid, gid, vid, dim_id);
+  ierr = nio_fi_co_name(dim_name, fileid, grph, vid, dim_id);
   if (ierr != 0)
     {
       fprintf (stderr, "ncview: nio_dim_id_to_name: error on ");
@@ -360,10 +370,10 @@ int nio_dim_name_to_id(const int fileid, const char *var_name,
                        const char *dim_name)
 {
   int ierr;
-  int gid, vid;
+  int grph, vid;
   int cidx;
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
 
   if (ierr != 0)
     {
@@ -378,7 +388,7 @@ int nio_dim_name_to_id(const int fileid, const char *var_name,
     }
   else
     {
-      cidx = tnb_co_idx(fileid, gid, vid, dim_name);
+      cidx = tnb_co_idx(grph, vid, dim_name);
       if (cidx >= 0)
         {
           cidx = cidx + dim_ofs;
@@ -433,32 +443,32 @@ Stringlist *nio_scannable_dims(const int fileid, const char *var_name)
 {
   /* reserved */
   Stringlist *dimlist = NULL;
-  int gid, vid;
+  int grph, vid;
   int ierr;
   int dims;
   int jd, n_dims;
   char dim_name[litem + 16];
 
-  ierr = nio_inq_varid_grp(fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp(fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_scannable_dims: could not find var named \"%s\" in file!\n",
               var_name);
       exit(-1);
     }
-  n_dims = tnb_var_nco(fileid, gid, vid);
+  n_dims = tnb_co_size(grph, vid);
   if (n_dims < 0)
     {
-      fprintf (stderr, "Error in nio_scannable_dims: %d %d %d\n", fileid, gid, vid);
+      fprintf (stderr, "Error in nio_scannable_dims: %d %d\n", grph, vid);
       exit(-1);
     }
   stringlist_add_string(&dimlist, NAME_REC, NULL, SLTYPE_NULL);
   for(jd = 0; jd < n_dims; jd++)
     {
-      dims = tnb_co_size(fileid, gid, vid, jd);
+      dims = tnb_co_len(grph, vid, jd);
       if(dims > 1)
         {
-          ierr = nio_fi_co_name(dim_name, fileid, gid, vid, jd + dim_ofs);
+          ierr = nio_fi_co_name(dim_name, fileid, grph, vid, jd + dim_ofs);
           /* ierr = tnb_co_name(dim_name, fileid, gid, vid, jd); */
           stringlist_add_string(&dimlist, dim_name, NULL, SLTYPE_NULL);
         }
@@ -472,7 +482,7 @@ void nio_fi_get_data(const int fileid, const char *var_name,
                      float *data, NetCDFOptions *aux_data)
 {
   int ierr, jerr;
-  int gid, vid;
+  int grph, vid;
   int jd, n_dims;
   size_t tot_size, sp_size;
   const size_t *sp_start = & start_pos[1];
@@ -482,17 +492,17 @@ void nio_fi_get_data(const int fileid, const char *var_name,
   float vmiss;
   int j;
 
-  ierr = nio_inq_varid_grp(fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp(fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_fi_get_data: could not find var named \"%s\" in file!\n",
               var_name);
       exit(-1);
     }
-  n_dims = tnb_var_nco(fileid, gid, vid);
+  n_dims = tnb_co_size(grph, vid);
   if (n_dims < 0)
     {
-      fprintf (stderr, "Error in nio_fi_get_data:: %d %d %d\n", fileid, gid, vid);
+      fprintf (stderr, "Error in nio_fi_get_data:: %d %d\n", grph, vid);
       exit(-1);
     }
 
@@ -506,8 +516,8 @@ void nio_fi_get_data(const int fileid, const char *var_name,
 
   if (options.debug)
     {
-      fprintf(stderr, "About to call nio_get_var_f on variable %s\n",
-              var_name );
+      fprintf(stderr, "About to call nio_get_var_f on variable %s %ld\n",
+              var_name, sp_size);
       fprintf(stderr, "Index, start, count:\n");
       for(jd = 0; jd < n_dims; jd++)
         fprintf(stderr, "[%d]: %ld %ld\n", jd, start_pos[jd], count[jd]);
@@ -516,15 +526,21 @@ void nio_fi_get_data(const int fileid, const char *var_name,
   for (jr = 0; jr < count[dim_rec]; jr++)
     {
       rec = start_pos[dim_rec] + jr;
-      jerr = tnb_get_attr_float(&vmiss, "MISS", fileid, gid, vid, rec);
+      jerr = tnb_get_attr_float(&vmiss, "MISS", grph, vid, rec);
       if (ierr == 0)
         {
           ierr = tnb_var_read_float(&data[sp_size * jr], rec, sp_start, sp_count,
-                                    fileid, gid, vid);
+                                    grph, vid);
         }
       if (options.debug)
         {
           fprintf(stderr, "read: %d %ld\n", ierr, sp_size);
+        }
+      if (ierr != 0)
+        {
+          fprintf(stderr, "Error in nio_fi_get_data: could read \"%s\" in file!\n",
+                  var_name);
+          exit(-1);
         }
       if (jerr == 0)
         {
@@ -567,12 +583,13 @@ nio_fi_check_has_grown(char *file, char *var_name, size_t *ref_sizes, int dim_id
 }
 
 int nio_inq_varid_grp (const int fileid, const char *varname,
-                       int * const groupid, int * const varid)
+                       int * const grphd, int * const varid)
 {
-  const char *vp, *gp;
-  int vid, gid;
+  const char *vp;
+  int vid, gid, grph, gref;
   int ierr = 0;
   long int gtmp;
+  char grpname[lgroup+1];
 
   vp = strchr(varname, '/');
 
@@ -580,21 +597,31 @@ int nio_inq_varid_grp (const int fileid, const char *varname,
     {
       /* no group */
       gid = 0;
-      vid = tnb_var_id(fileid, gid, varname);
+      grph = tnb_group(fileid, gid);
+      vid = tnb_search_var(grph, varname);
     }
   else
     {
-      gp = varname; gp++; /* skip 'G' */
-      gtmp = strtol(gp, NULL, 10);
-      gid = (int) gtmp;
+      ierr = unpack_groupname(varname, 0, grpname);
+      /* gp = varname; gp++; /\* skip 'G' *\/ */
+      /* gtmp = strtol(gp, NULL, 10); */
+      /* gid = (int) gtmp; */
       vp++;
       /* printf("gid, vp: %d %s\n", gid, vp); */
-      vid = tnb_var_id(fileid, gid, vp);
+      gref = -1;
+      while(1)
+        {
+          grph = tnb_search_group(fileid, grpname, gref);
+          vid = tnb_search_var(grph, vp);
+          if (vid>=0) break;
+          gref = grph;
+        }
     }
-  *groupid = gid;
-  *varid   = vid;
-  /* if (options.debug) printf("nnview/nio_inq_varid_grp: %s %d %d\n", */
-  /*                           varname, gid, vid); */
+  *grphd = grph;
+  *varid = vid;
+
+  if (options.debug)
+    printf("nnview/nio_inq_varid_grp: %s %d %d\n", varname, grph, vid);
 
   if (vid < 0) return (vid);
   return (ierr);
@@ -607,7 +634,7 @@ nio_fi_att_string(int fileid, char *var_name)
   char *ret_string;
   char aitem[16];
   char attr[litem+1];
-  int gid, vid;
+  int grph, vid;
   int ierr;
   int ji;
 
@@ -617,7 +644,7 @@ nio_fi_att_string(int fileid, char *var_name)
             var_name );
   ret_string[retval_len-1] = '\0';
 
-  ierr = nio_inq_varid_grp (fileid, var_name, &gid, &vid);
+  ierr = nio_inq_varid_grp (fileid, var_name, &grph, &vid);
   if (ierr != 0)
     {
       fprintf(stderr, "Error in nio_fi_att_string: could not find var named \"%s\" in file!\n",
@@ -627,7 +654,7 @@ nio_fi_att_string(int fileid, char *var_name)
   for (ji = 1; ji <= TNB_HEADER_ITEMS; ji++)
     {
       ierr = tnb_get_attr_name(aitem, ji);
-      ierr = tnb_get_attr_byid(attr, ji, fileid, gid, vid, 0);
+      ierr = tnb_get_attr_byid(attr, ji, grph, vid, 0);
       if (strcmp(attr, "") != 0)
         {
           safe_strcat (ret_string, retval_len, aitem);
@@ -641,7 +668,7 @@ nio_fi_att_string(int fileid, char *var_name)
 
 int
 nio_fi_co_name(char * const name,
-               const int handle, const int gid, const int vid,
+               const int handle, const int grph, const int vid,
                const int dim_id)
 {
   int ierr;
@@ -652,7 +679,7 @@ nio_fi_co_name(char * const name,
     }
   else
     {
-      ierr = tnb_co_name(name, handle, gid, vid, dim_id - dim_ofs);
+      ierr = tnb_co_name(name, grph, vid, dim_id - dim_ofs);
       if (strlen(name) == 0)
         {
           sprintf(name, "c%d", dim_id);

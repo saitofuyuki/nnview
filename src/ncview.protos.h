@@ -126,8 +126,7 @@ int nio_fi_confirm(const char *name);
 int nio_fi_initialize(const char *name);
 Stringlist *nio_fi_list_vars(const int fileid);
 size_t *nio_fi_var_size(const int fileid, const char *var_name);
-int nio_fi_var_dimsize(size_t **size, const int fileid, const int gid,
-                       const int vid);
+int nio_fi_var_dimsize(size_t **size, const int grph, const int vid);
 int nio_has_dim_values(const int fileid, const char *dim_name);
 void nio_fill_aux_data(const int id, const char *var_name, FDBlist *fdb);
 int nio_fi_n_dims(const int id, const char *varname);
@@ -189,9 +188,9 @@ int     is_scannable        ( NCVar *v, int i );
 void 	sl_cat		    ( Stringlist **dest, Stringlist **src );
 void 	get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data, 
 					float *min, float *max, int verbose );
-int 	unpack_groupname( char *varname, int ig, char *groupname );
 void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
+int     unpack_groupname(const char *varname, int ig, char *groupname );
 Stringlist *get_group_list  ( NCVar *vars );
 void safe_strcat (char *dest, size_t dest_len, char *src);
 
