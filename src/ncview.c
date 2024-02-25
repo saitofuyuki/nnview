@@ -847,7 +847,7 @@ fprintf( stderr, "Ncview comes with ABSOLUTELY NO WARRANTY; for details type `nc
 fprintf( stderr, "This is free software licensed under the Gnu General Public License version 3; type `ncview -c' for redistribution details.\n\n" );
 
 fprintf( stderr, "Nnview (Ncview + TOUZA/Nio extension)\n");
-fprintf( stderr, "Copyright (C) 2022, 2023, Japan Agency for Marine-Earth Science and Technology\n");
+fprintf( stderr, "Copyright (C) 2022-2024, Japan Agency for Marine-Earth Science and Technology\n");
 fprintf( stderr, "Nnview comes with ABSOLUTELY NO WARRANTY.'.\n" );
 fprintf( stderr, "This is free software licensed under the Gnu General Public License version 3\n\n" );
 
