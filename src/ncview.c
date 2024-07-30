@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2015 David W. Pierce
+ * Copyright (C) 1993 through 2024 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, Version 3, as 
@@ -16,15 +16,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrena
- * San Diego, CA  92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*
  * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2023
+ *    Copyright (C) 2022-2024
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -281,6 +279,16 @@ parse_options( int argc, char *argv[] )
 				options.autoscale = TRUE;
 				}
 
+			else if( strncmp( argv[i], "-scale", 6 ) == 0 ) {
+				sscanf( argv[i+1], "%f", &(options.scale) );
+				i++;
+				}
+
+			else if( strncmp( argv[i], "-offset", 7 ) == 0 ) {
+				sscanf( argv[i+1], "%f", &(options.offset) );
+				i++;
+				}
+
 			else if( strncmp( argv[i], "-listsel_max", 7 ) == 0 ) {
 				sscanf( argv[i+1], "%d", &(options.listsel_max) );
 				i++;
@@ -394,6 +402,8 @@ initialize_misc()
 	options.auto_overlay	 = DEFAULT_AUTO_OVERLAY;
 	options.autoscale	 = FALSE;
 	options.calendar	 = NULL;
+	options.scale		 = 1.e30;	/* This val means do NOT do any user scaling of data */
+	options.offset		 = 1.e30;	/* This val means do NOT do any user offset of data */
 
 	options.overlay          = (OverlayOptions *)malloc( sizeof( OverlayOptions ));
 	options.overlay->doit    = FALSE;
@@ -827,6 +837,8 @@ fprintf( stderr, "	-maxsize: specifies max size of window before scrollbars are 
 fprintf( stderr, "              integer between 30 and 100 giving percentage, or two integers separated by a\n" );
 fprintf( stderr, "              comma giving width and height. Ex: -maxsize 75  or -maxsize 800,600\n" );
 fprintf( stderr, "	-c: 	print the copying policy.\n" );
+fprintf( stderr, "	-scale: Useful for changing units; scale data by this factor\n" );
+fprintf( stderr, "	-offset: Useful for changing units; offset data by this factor (Ex: -scale 1.8 -offset 32 converts C to F)\n" );
 fprintf( stderr, "datafiles:\n" );
 fprintf( stderr, "	You can have up to 32 of these.  They must all be in\n" );
 fprintf( stderr, "	the same general format, or have different variables in\n" );
@@ -841,8 +853,8 @@ print_disclaimer()
 {
 fprintf( stderr, "%s\n\n", NNVIEW_ID );
 fprintf( stderr, "%s\n", PROGRAM_ID );
-fprintf( stderr, "http://meteora.ucsd.edu:80/~pierce/ncview_home_page.html\n" );
-fprintf( stderr, "Copyright (C) 1993 through 2015, David W. Pierce\n" );
+fprintf( stderr, "https://cirrus.ucsd.edu/ncview/\n" );
+fprintf( stderr, "Copyright (C) 1993 through 2024, David W. Pierce\n" );
 fprintf( stderr, "Ncview comes with ABSOLUTELY NO WARRANTY; for details type `ncview -w'.\n" );
 fprintf( stderr, "This is free software licensed under the Gnu General Public License version 3; type `ncview -c' for redistribution details.\n\n" );
 
@@ -857,7 +869,7 @@ fprintf( stderr, "This is free software licensed under the Gnu General Public Li
 	void
 print_no_warranty()
 {
-printf( "\n The program `ncview' is Copyright (C) 1993 through 2015 David W. Pierce, and\n" );
+printf( "\n The program `ncview' is Copyright (C) 1993 through 2024 David W. Pierce, and\n" );
 printf( "is subject to the terms and conditions of the Gnu General Public License,\n" );
 printf( "Version 3. For information on copying, modifying, or distributing `ncview',\n" );
 printf( "type `ncview -c'.\n" );
@@ -897,7 +909,7 @@ printf( "POSSIBILITY OF SUCH DAMAGES.\n" );
 	void 
 print_copying()
 {
-printf( "  The program `ncview' is Copyright (C) 1993 through 2015, David W. Pierce, and \n" );
+printf( "  The program `ncview' is Copyright (C) 1993 through 2024, David W. Pierce, and \n" );
 printf( "is subject to the terms and conditions of the Gnu General Public License,\n" );
 printf( "Version 3.  Ncview comes with NO WARRANTY; for further information, type\n" );
 printf( "`ncview -w'.\n" );

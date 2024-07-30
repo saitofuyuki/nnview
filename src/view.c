@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2010 David W. Pierce
+ * Copyright (C) 1993 through 2024 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -16,9 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrean
- * San Diego, CA   92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*
@@ -3137,6 +3135,7 @@ view_change_transform( int delta )
 		case TRANSFORM_LOW4: in_set_label( LABEL_TRANSFORM, "1/4 Low"   ); break;
 		case TRANSFORM_HI2 : in_set_label( LABEL_TRANSFORM, "2 Hi"    ); break;
 		case TRANSFORM_HI4 : in_set_label( LABEL_TRANSFORM, "4 Hi"    ); break;
+		case TRANSFORM_CENTER : in_set_label( LABEL_TRANSFORM, "Center" ); break;
 		case TRANSFORM_SYMLOW2: in_set_label (LABEL_TRANSFORM, "1/2 SymLow"); break;
 		case TRANSFORM_SYMLOW4: in_set_label (LABEL_TRANSFORM, "1/4 SymLow"); break;
 		case TRANSFORM_SYMHI2:  in_set_label (LABEL_TRANSFORM, "2 SymHi"); break;

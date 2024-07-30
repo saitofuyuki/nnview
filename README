@@ -10,7 +10,7 @@ Everything related to copying, etc, follows the original policy of
 Ncview except where explicitly indicated.
 
 All the modification and one new file src/file_nio.c are
-Copyright (c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
+Copyright (c) 2022-2024 Japan Agency for Marine-Earth Science and Technology.
 
 Nnview is maintained by SAITO Fuyuki.
 
@@ -59,7 +59,7 @@ Also see files "README.ncview" and "COPYING".
 Nnview is a derivative work of Ncview by David W. Pierce.
 All the extension and modification to the original package are
 done by SAITO Fuyuki and Copyright is
-(c) 2022-2023 Japan Agency for Marine-Earth Science and Technology.
+(c) 2022-2024 Japan Agency for Marine-Earth Science and Technology.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License version 3 as
