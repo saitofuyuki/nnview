@@ -2359,7 +2359,7 @@ Stringlist *get_group_list( NCVar *vars )
  *
  * Returns 0 on success, -1 on error
  */
-int unpack_groupname( char *varname, int ig, char *groupname ) 
+int unpack_groupname(const char *varname, int ig, char *groupname )
 {
 	int	i, i0, i1, idx_slash[MAX_NC_NAME], nslash;
 	char	ts[MAX_NC_NAME];
