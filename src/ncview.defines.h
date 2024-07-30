@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2013 by David W. Pierce
+ * Copyright (C) 1993 through 2024 by David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -16,9 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrena 
- * San Diego, CA   92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*
@@ -31,8 +29,8 @@
 #include <udunits2.h>
 #endif
 
-#define PROGRAM_ID		"Ncview 2.1.9 David W. Pierce  14 July 2019"
-#define PROGRAM_VERSION_STRING	"2.1.9"
+#define PROGRAM_ID		"Ncview 2.1.10 David W. Pierce 7 February 2024"
+#define PROGRAM_VERSION_STRING	"2.1.10"
 #define APP_RES_VERSION 	1.93
 
 #ifndef TRUE
@@ -107,10 +105,11 @@
 
 /*****************************************************************************/
 /* Transforming the data before turning it into pixels is supported */
-#define N_TRANSFORMS		3
+#define N_TRANSFORMS		4
 #define TRANSFORM_NONE		1
 #define TRANSFORM_LOW		2
 #define TRANSFORM_HI		3
+#define TRANSFORM_CENTER	4
 
 /*****************************************************************************
  * Maximum number of X-Y plot windows which can pop up, and the max
@@ -540,6 +539,9 @@ typedef struct {
 	int	enable_group_sel;	/* TRUE if we have some vars in groups, so interface must incl. grp selection */
 
 	int	missval_r, missval_g, missval_b;	/* 0-255 values of R, G, B for missing data */
+
+	float	scale, offset;	/* These do NOT refer to the scale & offset in the netcdf file. They are for changing units of data */
+				/* SCALE IS APPLIED FIRST. So to conv C to F, use -scale 1.8 -offset 32 */
 
 	OverlayOptions *overlay;
 } Options;

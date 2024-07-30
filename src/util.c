@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2010  David W. Pierce
+ * Copyright (C) 1993 through 2024  David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -15,10 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * David W. Pierce
- * 6259 Caminito Carrean
- * San Diego, CA   92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*******************************************************************************
@@ -210,6 +207,9 @@ data_to_pixels( View *v )
 	float	data_range, rawdata, data, fill_value, *scaled_data;
 	long	blowup, result, orig_minmax_method;
 	char	error_message[1024];
+	double	pi;
+
+	pi = 3.1415926536;
 
 	/* Make sure the limits have been set on this variable.
 	 * They won't always be because an initial expose event can 
@@ -351,6 +351,10 @@ data_to_pixels( View *v )
 								break;
 
 					case TRANSFORM_HI:	data = data*data*data*data;     break;
+
+					case TRANSFORM_CENTER:	data = atan( (data - 0.5)*8.0 );
+								data = data/pi + 0.5;
+								break;
 					}		
 				if( options.invert_colors )
 					data = 1. - data;

@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2019 David W. Pierce
+ * Copyright (C) 1993 through 2024 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -16,9 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrean
- * San Diego, CA   92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*****************************************************************************
@@ -549,9 +547,10 @@ int netcdf_dim_name_to_id( int fileid, char *var_name, char *dim_name )
 void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos, 
 		size_t *count, float *data, NetCDFOptions *aux_data )
 {
-	int	err, varid, gid, debug;
+	int	err, varid, gid, debug, do_scale, do_offset;
 	char	var_name_ng[MAX_NC_NAME];
 	size_t	i, tot_size, n_dims;
+	float	missval, eps;
 
 	debug = 0;
 
@@ -647,6 +646,27 @@ void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos,
 		else if( aux_data->scale_factor_set ) 
 			for( i=0; i<tot_size; i++ )
 				*(data+i) = *(data+i) * aux_data->scale_factor;
+		}
+
+	/* Implement the USERS scale and offset, used for changing units of displayed data */
+	/* Note: this is NOT the netcdf file add_offset and scale_factor!!! */
+	do_scale  = ( options.scale  < 0.9e30 );
+	do_offset = ( options.offset < 0.9e30 );
+	if( do_scale || do_offset ) {
+		netcdf_fill_value( fileid, var_name, &missval, aux_data );
+		eps = fabsf( missval ) * 1.e-5;
+		}
+	if( do_scale ) {
+		for( i=0; i<tot_size; i++ ) {
+			if( fabsf( *(data+i) - missval ) > eps )
+				*(data+i) = *(data+i) * options.scale;
+			}
+		}
+	if( do_offset ) {
+		for( i=0; i<tot_size; i++ ) {
+			if( fabsf( *(data+i) - missval ) > eps )
+				*(data+i) = *(data+i) + options.offset;
+			}
 		}
 
 	if( options.debug ) 
