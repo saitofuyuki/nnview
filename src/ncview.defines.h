@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2013 by David W. Pierce
+ * Copyright (C) 1993 through 2024 by David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -16,15 +16,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrena 
- * San Diego, CA   92122
- * pierce@cirrus.ucsd.edu
+ * davidwilliampierce@gmail.com
  */
 
 /*
  * Notice for Ncview+TOUZA/Nio extension
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2023
+ *    Copyright (C) 2022-2024
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -41,8 +39,8 @@
 #define NNVIEW_ID "Nnview " NNVIEW_VERSION_NUMBER " SAITO Fuyuki " NNVIEW_VERSION_DATE
 #define NNVIEW_VERSION_STRING "+nnview~" NNVIEW_VERSION_NUMBER
 
-#define NCVIEW_ID		"Ncview 2.1.8 David W. Pierce  8 March 2017"
-#define NCVIEW_VERSION_STRING	"2.1.8"
+#define NCVIEW_ID		"Ncview 2.1.10 David W. Pierce 7 February 2024"
+#define NCVIEW_VERSION_STRING	"2.1.10"
 
 #define PROGRAM_ID NNVIEW_ID " (" NCVIEW_ID ")"
 #define PROGRAM_VERSION_STRING NCVIEW_VERSION_STRING NNVIEW_VERSION_STRING
@@ -120,16 +118,17 @@
 
 /*****************************************************************************/
 /* Transforming the data before turning it into pixels is supported */
-#define N_TRANSFORMS		9
+#define N_TRANSFORMS		10
 #define TRANSFORM_NONE		1
 #define TRANSFORM_HI2		2
 #define TRANSFORM_HI4		3
 #define TRANSFORM_LOW4		4
 #define TRANSFORM_LOW2		5
-#define TRANSFORM_SYMHI2	6
-#define TRANSFORM_SYMHI4	7
-#define TRANSFORM_SYMLOW4	8
-#define TRANSFORM_SYMLOW2	9
+#define TRANSFORM_CENTER	6
+#define TRANSFORM_SYMHI2	7
+#define TRANSFORM_SYMHI4	8
+#define TRANSFORM_SYMLOW4	9
+#define TRANSFORM_SYMLOW2	10
 
 /*****************************************************************************
  * Maximum number of X-Y plot windows which can pop up, and the max
@@ -150,15 +149,15 @@
 
 /*****************************************************************************/
 /* Maximum name length of a variable */
-#define MAX_VAR_NAME_LEN	132
+#define MAX_VAR_NAME_LEN	4095
 
 /*****************************************************************************/
 /* Maximum name length of a file */
-#define MAX_FILE_NAME_LEN	1024
+#define MAX_FILE_NAME_LEN	4095
 
 /*****************************************************************************/
 /* Maximum name length of a recdim units */
-#define MAX_RECDIM_UNITS_LEN	1024
+#define MAX_RECDIM_UNITS_LEN	4095
 
 /*****************************************************************************/
 /* Possible interpretations for the change_view routine; either change
@@ -560,6 +559,9 @@ typedef struct {
 	int	enable_group_sel;	/* TRUE if we have some vars in groups, so interface must incl. grp selection */
 
 	int	missval_r, missval_g, missval_b;	/* 0-255 values of R, G, B for missing data */
+
+	float	scale, offset;	/* These do NOT refer to the scale & offset in the netcdf file. They are for changing units of data */
+				/* SCALE IS APPLIED FIRST. So to conv C to F, use -scale 1.8 -offset 32 */
 
 	OverlayOptions *overlay;
 } Options;

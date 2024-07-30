@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993-2010 David W. Pierce
+ * Copyright (C) 1993-2024 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -16,14 +16,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrena
- * San Diego, CA  92122
+ * davidwilliampierce@gmail.com
  */
 
 /*
  * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2023
+ *    Copyright (C) 2022-2024
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -126,8 +125,7 @@ int nio_fi_confirm(const char *name);
 int nio_fi_initialize(const char *name);
 Stringlist *nio_fi_list_vars(const int fileid);
 size_t *nio_fi_var_size(const int fileid, const char *var_name);
-int nio_fi_var_dimsize(size_t **size, const int fileid, const int gid,
-                       const int vid);
+int nio_fi_var_dimsize(size_t **size, const int grph, const int vid);
 int nio_has_dim_values(const int fileid, const char *dim_name);
 void nio_fill_aux_data(const int id, const char *var_name, FDBlist *fdb);
 int nio_fi_n_dims(const int id, const char *varname);
@@ -189,9 +187,9 @@ int     is_scannable        ( NCVar *v, int i );
 void 	sl_cat		    ( Stringlist **dest, Stringlist **src );
 void 	get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data, 
 					float *min, float *max, int verbose );
-int 	unpack_groupname( char *varname, int ig, char *groupname );
 void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
+int     unpack_groupname(const char *varname, int ig, char *groupname );
 Stringlist *get_group_list  ( NCVar *vars );
 void safe_strcat (char *dest, size_t dest_len, char *src);
 

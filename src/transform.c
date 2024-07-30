@@ -27,7 +27,7 @@
  *
  * Created: Mar 16 2023
  * Maintainer: SAITO Fuyuki
- * Copyright (C) 2023
+ * Copyright (C) 2023, 2024
  *            Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -44,6 +44,7 @@ normalize_f (float data, const int transform)
    * whereas what the manual claims works, doesn't!
    */
   const float half = 0.5F;
+  const float pi = 3.1415926536;
   float w, s;
 
   switch (transform)
@@ -63,6 +64,10 @@ normalize_f (float data, const int transform)
     case TRANSFORM_HI4:
       data = data * data;
       data = data * data;
+      break;
+    case TRANSFORM_CENTER:
+      data = atanf((data - 0.5) * 8.0);
+      data = data / pi + 0.5;
       break;
     case TRANSFORM_SYMLOW2:
       w = (data - half) / half;
@@ -103,7 +108,8 @@ normalize_d (double data, const int transform)
    * the manual claims--at least for Ultrix--but works,
    * whereas what the manual claims works, doesn't!
    */
-  const float half = 0.5;
+  const double half = 0.5;
+  const double pi = 3.1415926536;
   double w, s;
 
   switch (transform)
@@ -123,6 +129,10 @@ normalize_d (double data, const int transform)
     case TRANSFORM_HI4:
       data = data * data;
       data = data * data;
+      break;
+    case TRANSFORM_CENTER:
+      data = atan((data - 0.5) * 8.0);
+      data = data / pi + 0.5;
       break;
     case TRANSFORM_SYMLOW2:
       w = (data - half) / half;
