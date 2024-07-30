@@ -1,6 +1,6 @@
 /*
  * Ncview by David W. Pierce.  A visual netCDF file viewer.
- * Copyright (C) 1993 through 2015 David W. Pierce
+ * Copyright (C) 1993 through 2019 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as 
@@ -549,9 +549,9 @@ int netcdf_dim_name_to_id( int fileid, char *var_name, char *dim_name )
 void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos, 
 		size_t *count, float *data, NetCDFOptions *aux_data )
 {
-	int	i, err, varid, gid, debug;
+	int	err, varid, gid, debug;
 	char	var_name_ng[MAX_NC_NAME];
-	size_t	tot_size, n_dims;
+	size_t	i, tot_size, n_dims;
 
 	debug = 0;
 
@@ -572,7 +572,7 @@ void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos,
 	if( debug==1 ) printf( "netcdf_fi_get_data: ndims=%ld\n", n_dims );
 	for( i=0; i<n_dims; i++ ) {
 		tot_size *= *(count+i);
-		if( debug==1 ) printf( "start[%d]=%ld count[%d]=%ld\n", i, start_pos[i], i, count[i] );
+		if( debug==1 ) printf( "start[%ld]=%ld count[%ld]=%ld\n", i, start_pos[i], i, count[i] );
 		}
 
 
@@ -581,7 +581,7 @@ void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos,
 				var_name );
 		fprintf( stderr, "Index, start, count:\n" );
 		for( i=0; i<netcdf_fi_n_dims(fileid, var_name); i++ )
-			fprintf( stderr, "[%d]: %ld %ld\n", i, *(start_pos+i), *(count+i) );
+			fprintf( stderr, "[%ld]: %ld %ld\n", i, *(start_pos+i), *(count+i) );
 		}
 
 	err = nc_get_vara_float( gid, varid, start_pos, count, data );
@@ -590,7 +590,7 @@ void netcdf_fi_get_data( int fileid, char *var_name, size_t *start_pos,
 		fprintf( stderr, "cdfid=%d   variable=%s\n", fileid, var_name );
 		fprintf( stderr, "start, count:\n" );
 		for( i=0; i<netcdf_fi_n_dims(fileid, var_name); i++ )
-			fprintf( stderr, "[%1d]: %ld  %ld\n", 
+			fprintf( stderr, "[%ld]: %ld  %ld\n", 
 				i, *(start_pos+i), *(count+i) );
 		fprintf( stderr, "%s\n", nc_strerror(err) );
 		exit( -1 );
@@ -1165,6 +1165,7 @@ nc_type netcdf_dim_value( int fileid, char *dim_name, size_t place,
 		case NC_LONG:
 		case NC_FLOAT:
 		case NC_DOUBLE:
+		case NC_INT64:
 
 			/* If we have a 'bounds' attribute for the dimvar, returned the value
 			 * centered between the boundaries.  Some files have the dim value NOT

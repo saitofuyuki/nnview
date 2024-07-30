@@ -31,8 +31,8 @@
 #include <udunits2.h>
 #endif
 
-#define PROGRAM_ID		"Ncview 2.1.8 David W. Pierce  8 March 2017"
-#define PROGRAM_VERSION_STRING	"2.1.8"
+#define PROGRAM_ID		"Ncview 2.1.9 David W. Pierce  14 July 2019"
+#define PROGRAM_VERSION_STRING	"2.1.9"
 #define APP_RES_VERSION 	1.93
 
 #ifndef TRUE
@@ -130,15 +130,15 @@
 
 /*****************************************************************************/
 /* Maximum name length of a variable */
-#define MAX_VAR_NAME_LEN	132
+#define MAX_VAR_NAME_LEN	4095
 
 /*****************************************************************************/
 /* Maximum name length of a file */
-#define MAX_FILE_NAME_LEN	1024
+#define MAX_FILE_NAME_LEN	4095
 
 /*****************************************************************************/
 /* Maximum name length of a recdim units */
-#define MAX_RECDIM_UNITS_LEN	1024
+#define MAX_RECDIM_UNITS_LEN	4095
 
 /*****************************************************************************/
 /* Possible interpretations for the change_view routine; either change
