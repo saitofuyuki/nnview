@@ -84,7 +84,7 @@ fi_initialize( char *name, int nfiles )
 
 	if( file_type == FILE_TYPE_NETCDF ) {
 		if( options.debug ) 
-			fprintf( stderr, "Initializing file %s\n", name );
+			printf( "Initializing file %s\n", name );
 		id = netcdf_fi_initialize( name );
 		}
 	else
@@ -95,12 +95,12 @@ fi_initialize( char *name, int nfiles )
 		}
 
 	if( options.debug ) 
-		fprintf( stderr, "Getting list of variables for file %s\n", name );
+		printf( "Getting list of variables for file %s\n", name );
 	var_list = fi_list_vars( id );
 	add_vars_to_list( var_list, id, name, nfiles );
 	
 	if( options.debug ) 
-		fprintf( stderr, "Done initializing file %s\n", name );
+		printf( "Done initializing file %s\n", name );
 
 	return( id );
 }	

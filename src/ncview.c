@@ -495,7 +495,7 @@ get_cmaps_from_dir( char *dir_name )
 	int		n_colormaps = 0, n_suffix;
 
 	if( options.debug ) 
-		fprintf( stderr, "Getting colormaps from dir >%s<\n", dir_name );
+		printf( "Getting colormaps from dir >%s<\n", dir_name );
 
 	ncdir     = opendir( dir_name );
 	if( ncdir == NULL ) 
@@ -558,7 +558,7 @@ init_cmap_from_data( char *colormap_name, int *data )
 	unsigned char r[256], g[256], b[256];
 
 	if( options.debug ) 
-		fprintf( stderr, "    ... initting cmap >%s< from supplied data\n", colormap_name );
+		printf( "    ... initting cmap >%s< from supplied data\n", colormap_name );
 
 	for( i=0; i<256; i++ ) {
 		r[i] = (unsigned char)data[i*3+0];
@@ -581,7 +581,7 @@ init_cmap_from_file( char *dir_name, char *file_name, int n_suffix )
 	size_t	slen;
 
 	if( options.debug ) 
-		fprintf( stderr, "    ... initting cmap >%s<\n", file_name );
+		printf( "    ... initting cmap >%s<\n", file_name );
 
 	/* Colormap name is the file name without the '.ncmap' or '.ncm' extension */
 	colormap_name = (char *)malloc( strlen(file_name)-(n_suffix-1) );
@@ -660,7 +660,7 @@ initialize_file_interface( Stringlist *input_files )
 	NCVar	*var;
 
 	if( options.debug ) 
-		fprintf( stderr, "Initializing file interface...\n" );
+		printf( "Initializing file interface...\n" );
 
 	nfiles = stringlist_len( input_files );
 
@@ -669,7 +669,7 @@ initialize_file_interface( Stringlist *input_files )
 		input_files = input_files->next;
 		}
 	if( options.debug ) 
-		fprintf( stderr, "...calculating dim min & maxes...\n" );
+		printf( "...calculating dim min & maxes...\n" );
 	calc_dim_minmaxes();
 
 	/* Get the effective dimensionality of all the vars.
@@ -685,12 +685,12 @@ initialize_file_interface( Stringlist *input_files )
 			if( *(var->size + idim) > 1 )
 				var->effective_dimensionality++;
 			if( options.debug ) 
-				fprintf( stderr, "var %s has %d dims, dim %d: >%s< len %ld\n",
+				printf( "var %s has %d dims, dim %d: >%s< len %ld\n",
 					var->name, var->n_dims, idim, 
 					var->dim[idim]->name, var->dim[idim]->size );
 			}
 		if( options.debug ) {
-			fprintf( stderr, "variable %s had effective_dimensionality of %d\n",
+			printf( "variable %s had effective_dimensionality of %d\n",
 				var->name, var->effective_dimensionality );
 			}
 		var = var->next;
@@ -706,7 +706,7 @@ initialize_file_interface( Stringlist *input_files )
 		options.varsel_style = VARSEL_MENU;
 
 	if( options.debug ) 
-		fprintf( stderr, "Done initializing file interface...\n" );
+		printf( "Done initializing file interface...\n" );
 }
 
 /***********************************************************************************************/
@@ -799,7 +799,7 @@ fprintf( stderr, "		(\"-minmax slow\"), or all entries (\"-minmax all\").\n" );
 fprintf( stderr, "	-frames: Dump out PNG images (to make a movie, for instance)\n" );
 fprintf( stderr, "	-nc: 	Specify number of colors to use.\n" );
 fprintf( stderr, "	-no1d: 	Do NOT allow 1-D variables to be displayed.\n" );
-fprintf( stderr, "	-repl: 	Set default blowup type to replicate rathern than bilinear.\n" );
+fprintf( stderr, "	-repl: 	Set default blowup type to replicate rather than bilinear.\n" );
 fprintf( stderr, "	-calendar: Specify time calendar to use, overriding value in file. Known: noleap standard gregorian 365_day 360_day.\n" );
 fprintf( stderr, "	-private: Use a private colormap.\n" );
 fprintf( stderr, "	-debug: Print lots of debugging info.\n" );
