@@ -191,6 +191,7 @@ void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
 int     unpack_groupname(const char *varname, int ig, char *groupname );
 Stringlist *get_group_list  ( NCVar *vars );
+void 	varname_no_groups   ( char *varname, char *varname_sans_groups, char *groupname );
 void safe_strcat (char *dest, size_t dest_len, char *src);
 
 /******************************************************************************
