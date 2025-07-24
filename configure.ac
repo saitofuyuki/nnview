@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl set version
 m4_define([ncview_major_version],[2])
 m4_define([ncview_minor_version],[1])
-m4_define([ncview_micro_version],[10])
+m4_define([ncview_micro_version],[11])
 m4_define([ncview_suffix_version],[+ds])
 m4_define([ncview_version],[ncview_major_version.ncview_minor_version.ncview_micro_version[]ncview_suffix_version])
 
@@ -267,7 +267,7 @@ AC_DEFINE([NNVIEW_VERSION_DATE], ["nnview_release_date"], [nnview release])
 
 PKG_PROG_PKG_CONFIG([1.8.1])
 PKG_PREREQ([0.29])
-PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.12.3.1])
+PKG_CHECK_MODULES_STATIC([TOUZA], [touza >= 1.15])
 PKG_CHECK_VAR([TOUZA_FCLIBS], [touza], [fclibs])
 
 #----------------------------------------------------------------------------

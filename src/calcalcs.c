@@ -1609,8 +1609,8 @@ static int set_xition_extra_info( calcalcs_cal *cal )
 	 */ 
 	ierr = ccs_jday2date( cal->early_cal, (cal->jday_x-1), &(cal->year_px), &(cal->month_px), &(cal->day_px));
 	if( ierr != 0 ) {
-		sprintf( error_message, "Failed to turn the day BEFORE the mixed calendar transition day of %04d-%02d-%02d into a date while using calendar %s! %s\n",
-			cal->year_x, cal->month_x, cal->day_x, cal->early_cal->name, ccs_err_str(ierr) );
+		sprintf( error_message, "Failed to turn the day BEFORE the mixed calendar transition day of %04d-%02d-%02d into a date while using calendar %s! %d\n",
+			cal->year_x, cal->month_x, cal->day_x, cal->early_cal->name, ierr );
 		return(ierr);
 		}
 

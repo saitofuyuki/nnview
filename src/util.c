@@ -21,7 +21,7 @@
 /*
  * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2024
+ *    Copyright (C) 2022-2025
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -389,16 +389,16 @@ add_vars_to_list( Stringlist *var_list, int id, char *filename, int nfiles )
 	Stringlist *var;
 
 	if( options.debug )
-		fprintf( stderr, "add_vars_to_list: entering, adding vars to list for file %s\n", filename );
+		printf( "add_vars_to_list: entering, adding vars to list for file %s\n", filename );
 	var = var_list;
 	while( var != NULL ) {
 		if( options.debug ) 
-			fprintf( stderr, "adding variable %s to list\n", var->string );
+			printf( "adding variable %s to list\n", var->string );
 		add_var_to_list( var->string, id, filename, nfiles );
 		var = var->next;
 		}
 	if( options.debug ) 
-		fprintf( stderr, "done adding vars for file %s\n", filename );
+		printf( "done adding vars for file %s\n", filename );
 }
 
 /******************************************************************************
@@ -440,7 +440,7 @@ add_var_to_list( char *var_name, int file_id, char *filename, int nfiles )
 		n_dims              = fi_n_dims( file_id, var_name );
 		new_var->n_dims     = n_dims;
 		if( options.debug )
-			fprintf( stderr, "adding variable %s with %d dimensions\n",
+			printf( "adding variable %s with %d dimensions\n",
 				var_name, n_dims );
 		new_var->first_file = new_fdb;
 		new_var->last_file  = new_fdb;
@@ -479,7 +479,7 @@ add_var_to_list( char *var_name, int file_id, char *filename, int nfiles )
 		{
 		/* Go to the end of the file list and add it there */
 		if( options.debug )
-			fprintf( stderr, "adding another file with variable %s in it\n",
+			printf( "adding another file with variable %s in it\n",
 				var_name );
 		if( var->last_file == NULL ) {
 			fprintf( stderr, "ncview: add_var_to_list: internal ");
@@ -1140,9 +1140,9 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 	must_be_left_of = v->n_dims;	/* Start out by setting all the way to right edge */
 	for( i=map_info->coord_var_ndims-1; i>=0; i--) {/* Want to find a dim in v that matches size of coord_var dim number i... */
 		/*
-		fprintf( stderr, "Searching for a dim in var %s that matches dim number %d in %s, which is of size %d\n",
+		printf( "Searching for a dim in var %s that matches dim number %d in %s, which is of size %d\n",
 			v->name, i, s, coord_var_eff_size[i] );
-		fprintf( stderr, "the match must be to the left of %d\n", must_be_left_of );
+		printf( "the match must be to the left of %d\n", must_be_left_of );
 		*/
 		for( j=must_be_left_of-1; j>=0; j-- ) {	/* ...subject to constraint that match be left of (have lower numerical value then) j */
 			if( coord_var_eff_size[i] == v->size[j] ) {
@@ -1328,14 +1328,14 @@ fill_dim_structs( NCVar *v )
 			d->global_id 	= ++global_id;
 			handle_time_dim( fileid, v, i );
 			if( options.debug ) 
-				fprintf( stderr, "adding scannable dim to var %s: dimname: %s dimsize: %ld\n", v->name, dim_name, d->size );
+				printf( "adding scannable dim to var %s: dimname: %s dimsize: %ld\n", v->name, dim_name, d->size );
 			}
 		else
 			{
 			/* Indicate non-scannable dimensions by a NULL */
 			*(v->dim + i) = NULL;
 			if( options.debug ) 
-				fprintf( stderr, "adding non-scannable dim to var %s: dim name: %s size: %ld\n", 
+				printf( "adding non-scannable dim to var %s: dim name: %s size: %ld\n", 
 					v->name, fi_dim_id_to_name( fileid, v->name, i), *(v->size+i) );
 			}
 		}
@@ -1501,8 +1501,11 @@ copy_info_to_identical_dims( NCVar *vsrc, NCDim *dsrc, size_t dim_len )
 				dims_are_same = (strcmp( dsrc->name, d->name ) == 0 ) &&
 						equivalent_FDBs( vsrc, v );
 				if( dims_are_same ) {
-					if( options.debug ) 
-						fprintf( stderr, "Dim %s (%d) is same as dim %s (%d), copying min&max from former to latter...\n", dsrc->name, dsrc->global_id, d->name, d->global_id );
+					if( options.debug ) {
+						printf( "Dim %s (%d) is same as dim %s (%d), copying min&max from former to latter... min=%f max=%f\n", 
+							dsrc->name, dsrc->global_id, d->name, d->global_id,
+							dsrc->min, dsrc->max );
+						}
 					d->min = dsrc->min;
 					d->max = dsrc->max;
 					d->have_calc_minmax = 1;
@@ -1542,7 +1545,8 @@ calc_dim_minmaxes( void )
 			d = *(v->dim+i);
 			if( (d != NULL) && (d->have_calc_minmax == 0)) {
 				if( options.debug ) 
-					fprintf( stderr, "...min & maxes for dim %s (%d)...\n", d->name, d->global_id );
+					printf( "%s %d ...min & maxes for dim d->name=>%s< (d->global_id=%d)...\n", 
+						__FILE__, __LINE__, d->name, d->global_id );
 				dim_len = *(v->size+i);
 				d->values = (float *)malloc(dim_len*sizeof(float));
 
@@ -1563,7 +1567,7 @@ calc_dim_minmaxes( void )
 				else
 					{
 					if( options.debug ) 
-						fprintf( stderr, "**Note: non-float dim found; i=%d\n", i );
+						printf( "**Note: non-float dim found; i=%d\n", i );
 					d->min  = 1.0;
 					d->max  = (float)dim_len;
 					for( j=0; j<dim_len; j++ )
@@ -2429,5 +2433,45 @@ void safe_strcat( char *dest, size_t dest_len, char *src )
 	strncat( dest, src, nfree );
 
 	dest[ dest_len-1 ] = '\0';
+}
+
+/*******************************************************************************************
+ * Given a varname string of format: groupname0/groupname1/groupnameN/varname
+ * this returns ONLY the trailing varname in "varname_sans_groups", and ONLY the
+ * groupname with no leading or trailing slash ( "root/groupa" ) in "groupname"
+ */
+void varname_no_groups( char *varname, char *varname_sans_groups, char *groupname )
+{
+	int	i, i0, i1, idx_slash[MAX_NC_NAME], nslash;
+	char	ts[MAX_NC_NAME];
+
+	/* Get indices of the slashes */
+	nslash = 0;
+	for( i=0; i<strlen(varname); i++ ) {
+		if( varname[i] == '/' ) {
+			idx_slash[nslash] = i;
+			nslash++;
+			}
+		}
+
+	if( nslash == 0 ) {
+		strcpy( varname_sans_groups, varname );
+		if( groupname != NULL )
+			groupname[0] = '\0';
+		return;
+		}
+
+	strcpy( varname_sans_groups, varname+idx_slash[nslash-1]+1 );
+	if( groupname != NULL ) {
+		strncpy( groupname, varname, idx_slash[nslash-1] );
+		groupname[ idx_slash[nslash-1] ] = '\0';
+		}
+
+	/*
+	printf( "UUUU varname_no_groups, varname: >%s< varname_sans_groups: >%s< groupname: >%s<\n", 
+		varname,
+		varname_sans_groups,
+		((groupname == NULL) ? "NULL" : groupname));
+	*/
 }
 

@@ -1,4 +1,5 @@
 SUBDIRS = src 
+
 ACLOCAL_AMFLAGS = -I m4macros
 
 dist_pkgdata_DATA = 3gauss.ncmap 3saw.ncmap bw.ncmap default.ncmap detail.ncmap hotres.ncmap

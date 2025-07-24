@@ -22,7 +22,7 @@
 /*
  * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2024
+ *    Copyright (C) 2022-2025
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
@@ -191,6 +191,7 @@ void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
 int     unpack_groupname(const char *varname, int ig, char *groupname );
 Stringlist *get_group_list  ( NCVar *vars );
+void 	varname_no_groups   ( char *varname, char *varname_sans_groups, char *groupname );
 void safe_strcat (char *dest, size_t dest_len, char *src);
 
 /******************************************************************************
