@@ -7,10 +7,10 @@ m4_define([ncview_micro_version],[11])
 m4_define([ncview_suffix_version],[+ds])
 m4_define([ncview_version],[ncview_major_version.ncview_minor_version.ncview_micro_version[]ncview_suffix_version])
 
-m4_define([nnview_release_date],[30 Jul 2024])
+m4_define([nnview_release_date],[24 Jul 2025])
 m4_define([nnview_major_version],[0])
 m4_define([nnview_minor_version],[4])
-m4_define([nnview_micro_version],[3])
+m4_define([nnview_micro_version],[4])
 m4_define([nnview_version],[nnview_major_version.nnview_minor_version.nnview_micro_version])
 
 m4_define([nnview_full_version],[ncview_version+nnview_version])

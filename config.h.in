@@ -15,19 +15,19 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `expat' library (-lexpat). */
+/* Define to 1 if you have the 'expat' library (-lexpat). */
 #undef HAVE_LIBEXPAT
 
-/* Define to 1 if you have the `X11' library (-lX11). */
+/* Define to 1 if you have the 'X11' library (-lX11). */
 #undef HAVE_LIBX11
 
-/* Define to 1 if you have the `Xaw' library (-lXaw). */
+/* Define to 1 if you have the 'Xaw' library (-lXaw). */
 #undef HAVE_LIBXAW
 
-/* Define to 1 if you have the `Xaw3d' library (-lXaw3d). */
+/* Define to 1 if you have the 'Xaw3d' library (-lXaw3d). */
 #undef HAVE_LIBXAW3D
 
-/* Define to 1 if you have the `Xt' library (-lXt). */
+/* Define to 1 if you have the 'Xt' library (-lXt). */
 #undef HAVE_LIBXT
 
 /* Define if you have the NETCDF library, either v3 or v4 */
@@ -96,7 +96,7 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
