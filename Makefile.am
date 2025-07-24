@@ -1,10 +1,5 @@
 SUBDIRS = src 
 
-AUTOMAKE_OPTIONS = subdir-objects
-bin_PROGRAMS=ncview
-noinst_PROGRAMS=geteuid
-geteuid_SOURCES=geteuid.c
-
 ACLOCAL_AMFLAGS = -I m4macros
 
 dist_pkgdata_DATA = 3gauss.ncmap 3saw.ncmap bw.ncmap default.ncmap detail.ncmap hotres.ncmap
