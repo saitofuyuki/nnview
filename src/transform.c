@@ -27,7 +27,7 @@
  *
  * Created: Mar 16 2023
  * Maintainer: SAITO Fuyuki
- * Copyright (C) 2023, 2024
+ * Copyright (C) 2023-2025
  *            Japan Agency for Marine-Earth Science and Technology
  */
 

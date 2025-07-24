@@ -22,7 +22,7 @@
 /*
  * Notice for Nnview (Ncview+TOUZA/Nio extension)
  *    Maintainer: SAITO Fuyuki
- *    Copyright (C) 2022-2024
+ *    Copyright (C) 2022-2025
  *              Japan Agency for Marine-Earth Science and Technology
  */
 
